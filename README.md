@@ -36,7 +36,7 @@ Digits is locked to the exact setup it was built for. Matching only some of this
 - **macOS:** the driver is generated for the exact kernel you run, from your Mac's own kernel collection; see [Build](#3-build). Digits was tested on macOS 27.3 with Darwin 27.3.0 built October 30, 2026 (`xnu-13432.60.57~99/RELEASE_ARM64_T6050`), and the committed table is for that kernel. Check yours with `uname -v`.
 - **Security settings:** SIP disabled, **Permissive Security**, and third-party kernel extensions allowed. Reduced Security is not enough.
 - **Signing:** your own Apple Developer team, with DriverKit development provisioning for the Mac you install on.
-- **Tools:** Xcode 27 with the macOS 27 SDK, [XcodeGen](https://github.com/yonaskolb/XcodeGen) and Python 3.
+- **Tools:** Xcode 27 with the macOS 27 SDK and Python 3. [XcodeGen](https://github.com/yonaskolb/XcodeGen) is only needed to regenerate the Xcode project, which the individual `build-driver.sh` and `build-touch.sh` scripts do.
 - **A backup** you know how to restore.
 
 ## Install
@@ -71,24 +71,34 @@ They are:
 - **Build and staging scripts:** `Tools/build-app.sh`, `Tools/build-installer.sh`, `Tools/stage-touch-development.py` and `Tools/verify-touch-development.py`.
 - **Code-signing requirements:** `DigitsApp/Source/Installer/DigitsInstallerHostIsValid.m` and `DigitsInstaller/Backend/Common/DigitsInstallerVerifyCode.m`. These make the app and installer trust only code signed by your team.
 
-### 3. Build
-
-Run these from this folder, in order:
+To replace them all at once, put your ID in place of `ABCDE12345`:
 
 ```sh
-python3 DigitsDriver/regenerate-kernel-table.py    # controller table for your running kernel
-sh Tools/build-driver.sh                           # Digits Driver and digits-driver-ctl
-sh Tools/package-driver.sh                         # Digits Driver installer package
-sh Tools/build-touch-development.sh YOUR_TEAM_ID   # Digits Touch, signed with your team
-python3 Tools/stage-touch-development.py           # stage the signed Digits Touch for the app
-sh Tools/build-installer.sh                        # Digits app and Digits Installer
+sed -i '' 's/YOUR_TEAM_ID/ABCDE12345/g' Tools/build-app.sh Tools/build-installer.sh \
+    Tools/stage-touch-development.py Tools/verify-touch-development.py \
+    DigitsApp/Source/Installer/DigitsInstallerHostIsValid.m \
+    DigitsInstaller/Backend/Common/DigitsInstallerVerifyCode.m
 ```
 
-The first command fits Digits Driver to your kernel; [After a macOS update](#after-a-macos-update) explains what it checks. If it stops, don't build: your kernel needs the driver ported first.
+### 3. Build
 
-The result is `.build/DigitsInstaller/Build/Products/Debug/Digits Installer.app`.
+From this folder, run:
 
-Building never installs, loads or activates anything. Build output goes to `.build/`, `BuildReports/`, `DigitsDriver/Packaging/` and `Releases/`, which git ignores. The staging step won't overwrite an earlier one, so delete `DigitsDriver/Packaging/TouchDevelopment` before you stage again.
+```sh
+sh Tools/make-installer.sh
+```
+
+It first checks that your team ID is set everywhere, then:
+
+1. **Fits Digits Driver to your running kernel** with `DigitsDriver/regenerate-kernel-table.py`. If it stops here, your kernel needs the driver ported first; [After a macOS update](#after-a-macos-update) explains the checks.
+2. **Builds Digits Driver** and its `digits-driver-ctl` tool.
+3. **Packages Digits Driver.**
+4. **Builds Digits Touch** signed with your team, and stages it for the app.
+5. **Builds the Digits app and Digits Installer.**
+
+It stops at the first problem and says why. The result is `.build/DigitsInstaller/Build/Products/Debug/Digits Installer.app`.
+
+Building never installs, loads or activates anything. Build output goes to `.build/`, `BuildReports/`, `DigitsDriver/Packaging/` and `Releases/`, which git ignores, and the logs are in `BuildReports/`. An earlier staged Digits Touch is moved to `.build/PreviousTouchDevelopment/` rather than overwritten.
 
 ### 4. Run the installer
 
@@ -123,11 +133,7 @@ Uninstalling removes the app, both drivers, the display choice, settings, logs a
 
 ### After a macOS update
 
-Digits Driver's controller table, [PinnedControllerTable.generated.hpp](DigitsDriver/PinnedControllerTable.generated.hpp), comes from one exact kernel collection. The driver refuses to arm on any other kernel, so multitouch stops after a macOS update until you rebuild:
-
-1. Run `python3 DigitsDriver/regenerate-kernel-table.py`.
-2. Repeat the rest of [Build](#3-build).
-3. Run the new installer.
+Digits Driver's controller table, [PinnedControllerTable.generated.hpp](DigitsDriver/PinnedControllerTable.generated.hpp), comes from one exact kernel collection. The driver refuses to arm on any other kernel, so multitouch stops after a macOS update until you rebuild: run `sh Tools/make-installer.sh` again, then run the new installer.
 
 [regenerate-kernel-table.py](DigitsDriver/regenerate-kernel-table.py) reads the active boot kernel collection from the Preboot volume as an ordinary file. It never installs, loads or arms anything. It unwraps and decompresses the collection, then confirms it is the running kernel. Before changing anything, it checks that the kernel still matches what the driver relies on:
 - **Controller vtable:** `AppleT8142USBXHCI`'s vtable has the 439 virtual functions the driver is compiled for.
@@ -162,7 +168,7 @@ This folder is the complete source:
 | [DigitsTouch](DigitsTouch/) | Digits Touch: USB transport, HID touchscreen and user client, plus a small standalone host app that activates it |
 | [DigitsInstaller](DigitsInstaller/) | Digits Installer: interface, backend and its maintenance tool |
 | [Testing](Testing/) | Passive touch-report capture and status tools |
-| [Tools](Tools/) | Build, package and install scripts |
+| [Tools](Tools/) | `make-installer.sh`, which builds everything, plus the individual build, package and install scripts it uses |
 | [Xcode](Xcode/), [project.json](project.json), [Digits.xcodeproj](Digits.xcodeproj/) | The Xcode project and the XcodeGen spec it is generated from |
 
 ### Building in Xcode
@@ -178,7 +184,7 @@ You can also open `Digits.xcodeproj` in Xcode 27. The shared schemes are:
 - **Digits Maintenance**
 - **Digits Installer Maintenance**
 
-The Digits app embeds the staged, signed Digits Touch, so run step 3's staging first. The driver and Touch scripts use Xcode at `/Applications/Xcode-beta.app`. For `build-driver.sh` and `build-touch.sh`, set `DEVELOPER_DIR` to use another copy.
+The Digits app embeds the staged, signed Digits Touch, so run `Tools/make-installer.sh` once first. The driver and Touch scripts use Xcode at `/Applications/Xcode-beta.app`. For `build-driver.sh` and `build-touch.sh`, set `DEVELOPER_DIR` to use another copy.
 
 ### Looking at raw touch reports
 

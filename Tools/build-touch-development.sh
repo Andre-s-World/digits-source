@@ -9,7 +9,7 @@ project_dir=$(CDPATH= cd -P "$(dirname -- "$0")/.." && pwd)
 cd "$project_dir"
 mkdir -p BuildReports
 build_log="BuildReports/touch-development-signing-$(/bin/date -u '+%Y%m%dT%H%M%SZ').log"
-if DEVELOPER_DIR=/Applications/Xcode-beta.app/Contents/Developer \
+if DEVELOPER_DIR=${DEVELOPER_DIR:-/Applications/Xcode-beta.app/Contents/Developer} \
     /usr/bin/xcodebuild -project Digits.xcodeproj -scheme 'Digits Touch' \
     -configuration Debug -derivedDataPath .build/SignedTouch -allowProvisioningUpdates \
     CODE_SIGNING_ALLOWED=YES CODE_SIGN_STYLE=Automatic \
