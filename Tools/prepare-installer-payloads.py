@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bundle the signed Digits app and frozen Driver package for offline setup.
+"""Bundle the signed Digits app and packaged Driver for offline setup.
 
 Touch is already embedded in Digits.app. Running the historical Touch package
 would replace that new app with its old host, so activation uses the new host.
@@ -23,9 +23,11 @@ def main():
     app = options.app
     frozen = root / 'DigitsDriver/Packaging/TouchDevelopment/Digits.app/Contents/Library/SystemExtensions/local.digits.touch.dext'
     package = options.release_directory / 'Digits Driver 0.2.4.pkg'
-    expected_package = '5c6a66c64c16ce2ecefcff7b17e8e44bd08c3fb54ab2528cbcc8a143effaaafb'
+    # Tools/package-driver.sh records the package hash beside it. A mismatch means the
+    # package changed after packaging, so it must not be bundled.
+    expected_package = (package.parent / (package.name + '.sha256')).read_text().split()[0]
     if hashlib.sha256(package.read_bytes()).hexdigest() != expected_package:
-        raise SystemExit('Frozen Driver package changed.')
+        raise SystemExit('Driver package differs from its recorded hash.')
     info = plistlib.loads((app / 'Contents/Info.plist').read_bytes())
     if info['CFBundleIdentifier'] != 'local.digits.touch.host' or info['CFBundleVersion'] != '0.2.7':
         raise SystemExit('Build Digits 0.2.7 before preparing installer payloads.')

@@ -406,7 +406,7 @@ def main():
     p.add_argument("--stop-symbol")
     p.add_argument("--start-symbol", default="_XeneonEarlyInitStart")
     p.add_argument("--require-symbol", action="append", default=[])
-    p.add_argument("--kernel-cache", type=Path, default=Path("work/xeneon-probe/kernelcache.decoded"))
+    p.add_argument("--kernel-cache", type=Path, default=Path(__file__).resolve().parent.parent / ".build/KernelTable/kernelcache.decoded")
     p.add_argument("--kernel-sha256", default="d1003b5143ffd88439b4d45b6017f587171cfe6855660bed05370a2ea5db9fe9")
     p.add_argument("--output", type=Path)
     p.add_argument("--self-test", action="store_true")

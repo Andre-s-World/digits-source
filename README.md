@@ -25,32 +25,25 @@ There are two drivers and an app.
 2. **Digits Touch** is a DriverKit extension. It claims only the panel's touch interface, reads the `0x0D` reports straight from USB, adds the confidence data macOS expects and publishes a native HID touchscreen tied to the Edge's display.
 3. **Digits** is the app. Use it to choose the touch display, check that both drivers are running, open the full-screen Tester, or uninstall everything.
 
-Touch reports go from USB to DriverKit to macOS. They never pass through the app, a socket or a helper process. Your display choice is saved on your Mac in `/Library/Application Support/Digits/DigitsDisplayBinding.plist`. No display ID is built into the source or the installer.
+Touch reports go from USB to DriverKit to macOS. They never pass through the app, a socket or a helper process. Your display choice is saved on your Mac in `/Library/Application Support/Digits/DigitsDisplayBinding.plist`. No display ID is built into the source.
 
 ## Requirements
 
-Digits is locked to the exact setup I tested. Matching only some of this list is not enough.
+Digits is locked to the exact setup it was built for. Matching only some of this list is not enough.
 
 - **Display:** a Corsair Xeneon Edge whose touch controller identifies as USB `27C0:0859`, revision `0150`.
-- **Mac:** Apple silicon with the `AppleT8142USBXHCI` USB controller, with the Edge plugged into the port I tested (USB route `0x00140000`).
-- **macOS:** 27.3 running Darwin 27.3.0 built October 30, 2026 (`xnu-13432.60.57~99/RELEASE_ARM64_T6050`). Check yours with `uname -v`. The driver is pinned to that kernel collection (SHA-256 `d1003b5143ffd88439b4d45b6017f587171cfe6855660bed05370a2ea5db9fe9`), the installer refuses any other kernel, and a macOS update needs a new driver build.
+- **Mac:** Apple silicon with the `AppleT8142USBXHCI` USB controller, with the Edge plugged into the tested port (USB route `0x00140000`).
+- **macOS:** the driver is generated for the exact kernel you run, from your Mac's own kernel collection; see [Build](#3-build). Digits was tested on macOS 27.3 with Darwin 27.3.0 built October 30, 2026 (`xnu-13432.60.57~99/RELEASE_ARM64_T6050`), and the committed table is for that kernel. Check yours with `uname -v`.
 - **Security settings:** SIP disabled, **Permissive Security**, and third-party kernel extensions allowed. Reduced Security is not enough.
-- **Signing:** the app and Digits Touch carry Apple Development signatures and only run on Macs registered in my provisioning profiles. A new Mac has to be added and the release re-signed and repackaged before it will install.
+- **Signing:** your own Apple Developer team, with DriverKit development provisioning for the Mac you install on.
+- **Tools:** Xcode 27 with the macOS 27 SDK, [XcodeGen](https://github.com/yonaskolb/XcodeGen) and Python 3.
 - **A backup** you know how to restore.
-
-To build from source you also need Xcode 27 with the macOS 27 SDK, [XcodeGen](https://github.com/yonaskolb/XcodeGen), Python 3, and an Apple Developer team with DriverKit development provisioning.
 
 ## Install
 
-The full guide, with screenshots of every approval screen, is in the binaries repository: [MacOS-27.3/INSTALL.md](https://github.com/Andre-s-World/digits-binaries/blob/main/MacOS-27.3/INSTALL.md). Here is the short version.
+There are no prebuilt releases. Digits Driver is compiled against a table taken from one exact macOS kernel, so a build only runs on the macOS build it was made for. You compile Digits on your own Mac and compile it again after every macOS update.
 
-### 1. Get the release
-
-The release is a password-protected ZIP in [Andre-s-World/digits-binaries](https://github.com/Andre-s-World/digits-binaries). Contact me before installing. I'll confirm your Mac and macOS build are supported, add your Mac to the provisioning profiles, and send you a repackaged build and the password. Send your Mac's Provisioning UDID (**System Information → Hardware**) privately, never in a public issue.
-
-Extract the ZIP. **Digits Installer 0.1.4.dmg** contains everything; nothing is downloaded during installation.
-
-### 2. Prepare macOS security (once)
+### 1. Prepare macOS security (once)
 
 Skip this step if your Mac is already set up.
 
@@ -64,13 +57,44 @@ Skip this step if your Mac is already set up.
 
 3. Restart into macOS.
 
-`bputil -n -k` selects Permissive Security and allows kernel extensions. The Digits installer never changes these settings for you.
+`bputil -n -k` selects Permissive Security and allows kernel extensions. Nothing in this project changes these settings for you.
 
-### 3. Run the installer
+### 2. Put in your team ID
+
+Wherever the source says `YOUR_TEAM_ID`, replace it with your Apple Developer team ID. Until you do, the build and the installer's signature checks fail on purpose. This command lists every place:
+
+```sh
+grep -rl YOUR_TEAM_ID .
+```
+
+They are:
+- **Build and staging scripts:** `Tools/build-app.sh`, `Tools/build-installer.sh`, `Tools/stage-touch-development.py` and `Tools/verify-touch-development.py`.
+- **Code-signing requirements:** `DigitsApp/Source/Installer/DigitsInstallerHostIsValid.m` and `DigitsInstaller/Backend/Common/DigitsInstallerVerifyCode.m`. These make the app and installer trust only code signed by your team.
+
+### 3. Build
+
+Run these from this folder, in order:
+
+```sh
+python3 DigitsDriver/regenerate-kernel-table.py    # controller table for your running kernel
+sh Tools/build-driver.sh                           # Digits Driver and digits-driver-ctl
+sh Tools/package-driver.sh                         # Digits Driver installer package
+sh Tools/build-touch-development.sh YOUR_TEAM_ID   # Digits Touch, signed with your team
+python3 Tools/stage-touch-development.py           # stage the signed Digits Touch for the app
+sh Tools/build-installer.sh                        # Digits app and Digits Installer
+```
+
+The first command fits Digits Driver to your kernel; [After a macOS update](#after-a-macos-update) explains what it checks. If it stops, don't build: your kernel needs the driver ported first.
+
+The result is `.build/DigitsInstaller/Build/Products/Debug/Digits Installer.app`.
+
+Building never installs, loads or activates anything. Build output goes to `.build/`, `BuildReports/`, `DigitsDriver/Packaging/` and `Releases/`, which git ignores. The staging step won't overwrite an earlier one, so delete `DigitsDriver/Packaging/TouchDevelopment` before you stage again.
+
+### 4. Run the installer
 
 Keep the Edge connected to the same port the whole time.
 
-1. Open the DMG, copy **Digits Installer.app** to a writable folder such as your Desktop, and open that copy. If macOS blocks it, use **Open Anyway** in **System Settings → Privacy & Security**.
+1. Open **Digits Installer.app** from the build folder.
 2. Choose the Edge's display from the list and click **Install**. Approve the administrator prompt.
 3. **Allow Digits Touch.** Approve the driver extension request. If you dismissed it, go to **System Settings → General → Login Items & Extensions → Driver Extensions** and turn on **Digits Touch**.
 4. **Allow Digits Driver.** Choose **Open System Settings**, or go to **System Settings → Privacy & Security** and click **Allow** next to Digits Driver. When macOS offers to restart, choose **Restart Later**.
@@ -97,9 +121,31 @@ Press **Esc** to leave full screen and **Close** to exit.
 
 Uninstalling removes the app, both drivers, the display choice, settings, logs and package receipts. It does not turn SIP or your startup security back on; do that separately from Recovery.
 
+### After a macOS update
+
+Digits Driver's controller table, [PinnedControllerTable.generated.hpp](DigitsDriver/PinnedControllerTable.generated.hpp), comes from one exact kernel collection. The driver refuses to arm on any other kernel, so multitouch stops after a macOS update until you rebuild:
+
+1. Run `python3 DigitsDriver/regenerate-kernel-table.py`.
+2. Repeat the rest of [Build](#3-build).
+3. Run the new installer.
+
+[regenerate-kernel-table.py](DigitsDriver/regenerate-kernel-table.py) reads the active boot kernel collection from the Preboot volume as an ordinary file. It never installs, loads or arms anything. It unwraps and decompresses the collection, then confirms it is the running kernel. Before changing anything, it checks that the kernel still matches what the driver relies on:
+- **Controller vtable:** `AppleT8142USBXHCI`'s vtable has the 439 virtual functions the driver is compiled for.
+- **Factory slots:** the two device-factory slots it hooks, `0x948` and `0x958`, are unchanged.
+- **Vptr signing:** the controller still signs its vtable pointer with the discriminator the driver uses, `0xcda1`.
+- **Request slot:** `IOUSBHostDevice`'s request method is still at the slot the driver overrides, `0xb68`.
+
+If all checks pass, it rewrites the table and moves every exact-kernel check in the project to the new kernel:
+- the driver package scripts
+- the installer
+- the app's maintenance tool
+- the remaining scripts
+
+If any check fails, it changes nothing and says which one. That means Apple changed the controller, and Digits Driver needs porting before it can run on that kernel. Its working files go to `.build/KernelTable`. `--check` confirms the committed table matches your kernel without changing anything.
+
 ## What's included
 
-This folder is the complete source for the current release.
+This folder is the complete source:
 
 | Component | Version | What it is |
 | --- | --- | --- |
@@ -112,16 +158,16 @@ This folder is the complete source for the current release.
 | --- | --- |
 | [DigitsApp](DigitsApp/) | The Digits app (AppKit) and its one-shot maintenance tool for display changes and removal |
 | [DigitsTests](DigitsTests/) | The Tester screen built into Digits |
-| [DigitsDriver](DigitsDriver/) | Digits Driver: kernel extension source, control tool, standalone build scripts and package scripts |
+| [DigitsDriver](DigitsDriver/) | Digits Driver: kernel extension source, kernel-table regeneration tool, control tool, standalone build scripts and package scripts |
 | [DigitsTouch](DigitsTouch/) | Digits Touch: USB transport, HID touchscreen and user client, plus a small standalone host app that activates it |
 | [DigitsInstaller](DigitsInstaller/) | Digits Installer: interface, backend and its maintenance tool |
 | [Testing](Testing/) | Passive touch-report capture and status tools |
 | [Tools](Tools/) | Build, package and install scripts |
 | [Xcode](Xcode/), [project.json](project.json), [Digits.xcodeproj](Digits.xcodeproj/) | The Xcode project and the XcodeGen spec it is generated from |
 
-### Building
+### Building in Xcode
 
-Open `Digits.xcodeproj` in Xcode 27. The shared schemes are:
+You can also open `Digits.xcodeproj` in Xcode 27. The shared schemes are:
 
 - **Digits**
 - **Digits Installer**
@@ -132,22 +178,7 @@ Open `Digits.xcodeproj` in Xcode 27. The shared schemes are:
 - **Digits Maintenance**
 - **Digits Installer Maintenance**
 
-Or use the scripts in [Tools](Tools/):
-
-- `Tools/build-driver.sh` and `Tools/build-touch.sh` regenerate the project with XcodeGen and build unsigned debug copies of the drivers.
-- `Tools/build-touch-development.sh <TEAM_ID>` builds a signed Digits Touch with your development profiles. Then `python3 Tools/stage-touch-development.py` stages it in `DigitsDriver/Packaging/TouchDevelopment`.
-- `Tools/build-app.sh` and `Tools/build-installer.sh` build signed copies of the app and the installer.
-
-The Digits app embeds that staged, signed Digits Touch, so stage it before you build the app. The staged copy isn't included here because its provisioning profiles list the registered test Macs.
-
-The scripts are set up for my team ID (`PZFJJ4L6SD`). Replace it with yours in `build-app.sh`, `build-installer.sh`, `stage-touch-development.py` and `verify-touch-development.py`.
-
-The driver and Touch scripts use Xcode at `/Applications/Xcode-beta.app`. For `build-driver.sh` and `build-touch.sh`, set `DEVELOPER_DIR` to use another copy. The app and installer scripts use your selected Xcode. Building never installs, loads or activates anything.
-
-The installer build repackages my frozen release; it does not rebuild the drivers. Before bundling, `Tools/prepare-installer-payloads.py` checks the hashes of two components:
-
-- the Digits Driver 0.2.4 package from the release ZIP, expected in `Releases/MacOS-27.3/Components` (or pass `--release-directory`)
-- the signed Digits Touch 0.1.6 extension
+The Digits app embeds the staged, signed Digits Touch, so run step 3's staging first. The driver and Touch scripts use Xcode at `/Applications/Xcode-beta.app`. For `build-driver.sh` and `build-touch.sh`, set `DEVELOPER_DIR` to use another copy.
 
 ### Looking at raw touch reports
 
@@ -165,9 +196,9 @@ python3 Testing/read-driver-reports.py --input <capture.pcap> --output <empty-fo
 
 ## Limits
 
-- Tested on one Mac, one Edge and one macOS build. Other Macs, macOS versions, ports and touch controllers are untested, and the driver's checks will refuse most of them.
+- Tested on one Mac, one Edge and macOS 27.3. Other Macs, ports and touch controllers are untested, and the driver's checks will refuse most of them.
 - The FileVault unlock screen appears before these drivers load, so Digits doesn't work there. Touch at the login window, and every sleep, wake and cold-boot sequence, are untested.
-- Digits Driver depends on private details of Apple's USB controller implementation, which is why it is pinned to one exact kernel. It is not a public-API driver.
+- Digits Driver depends on private details of Apple's USB controller implementation, which is why it is tied to one exact kernel. It is not a public-API driver.
 - Nothing here is notarized or approved by Apple.
 
 Digits is an independent project. It is not affiliated with or endorsed by Corsair or Apple.

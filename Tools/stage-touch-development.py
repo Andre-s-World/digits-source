@@ -30,7 +30,7 @@ def main():
     files = [{"path": str(path.relative_to(package)), "bytes": path.stat().st_size,
               "sha256": hashlib.sha256(path.read_bytes()).hexdigest()} for path in paths]
     report = {
-        "product": "Digits Touch", "version": "0.1.6", "teamIdentifier": "PZFJJ4L6SD",
+        "product": "Digits Touch", "version": "0.1.6", "teamIdentifier": "YOUR_TEAM_ID",
         "hostBundleIdentifier": "local.digits.touch.host", "extensionBundleIdentifier": "local.digits.touch",
         "createdUTC": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "signature": "Apple Development with matching development provisioning profiles",

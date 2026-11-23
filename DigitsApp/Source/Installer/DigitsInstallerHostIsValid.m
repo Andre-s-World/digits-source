@@ -17,7 +17,7 @@ BOOL DigitsInstallerHostIsValid(NSString **message) {
     SecRequirementRef requirement = NULL;
     OSStatus status = SecStaticCodeCreateWithPath((__bridge CFURLRef)host.bundleURL, kSecCSDefaultFlags, &code);
     if (status == errSecSuccess)
-        status = SecRequirementCreateWithString(CFSTR("anchor apple generic and certificate leaf[subject.OU] = \"PZFJJ4L6SD\" and identifier \"local.digits.touch.host\""), kSecCSDefaultFlags, &requirement);
+        status = SecRequirementCreateWithString(CFSTR("anchor apple generic and certificate leaf[subject.OU] = \"YOUR_TEAM_ID\" and identifier \"local.digits.touch.host\""), kSecCSDefaultFlags, &requirement);
     if (status == errSecSuccess)
         status = SecStaticCodeCheckValidity(code, kSecCSStrictValidate | kSecCSCheckNestedCode, requirement);
     if (requirement) CFRelease(requirement);

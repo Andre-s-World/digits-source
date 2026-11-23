@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Generate immutable controller-table data from the pinned saved collection.
+"""Generate immutable controller-table data from a saved kernel collection.
 
 Offline only. This reads ordinary files; it does not query a running kernel,
 load code, or access USB. Runtime code has no dependency on these input paths.
+The inputs are written by regenerate-kernel-table.py.
 """
 import argparse
 import hashlib
@@ -10,32 +11,32 @@ import json
 from pathlib import Path
 import struct
 
-PINNED_SHA256 = "d1003b5143ffd88439b4d45b6017f587171cfe6855660bed05370a2ea5db9fe9"
-PINNED_UUID = "b2ca9932-beed-62e1-bc2b-0ee46b32c72d"
 PINNED_CLASS = "__ZTV17AppleT8142USBXHCI"
 
 
 def main():
     here = Path(__file__).resolve().parent
-    workspace_probe = here.parent / "xeneon-probe"
-    evidence = (workspace_probe if workspace_probe.is_dir()
-                else here.parents[1] / "investigation")
+    work = here.parent / ".build/KernelTable"
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--manifest", type=Path, default=evidence / "custom-hook/apple-t8142-vtable-pac.json")
-    parser.add_argument("--cache", type=Path, default=evidence / "kernelcache.decoded")
-    parser.add_argument("--symbols", type=Path, default=evidence / "kernel-symbols.txt")
-    parser.add_argument("--segments", type=Path, default=evidence / "kernel-segments.json")
+    parser.add_argument("--manifest", type=Path, default=work / "apple-t8142-vtable-pac.json")
+    parser.add_argument("--cache", type=Path, default=work / "kernelcache.decoded")
+    parser.add_argument("--symbols", type=Path, default=work / "kernel-symbols.txt")
+    parser.add_argument("--segments", type=Path, default=work / "kernel-segments.json")
+    parser.add_argument("--kernel-version", help="Require the collection to be exactly this kernel")
     parser.add_argument("--output", type=Path, default=here / "PinnedControllerTable.generated.hpp")
     parser.add_argument("--check", action="store_true", help="Verify the generated file is current; do not write it")
     args = parser.parse_args()
     data = args.cache.read_bytes()
     digest = hashlib.sha256(data).hexdigest()
     manifest = json.loads(args.manifest.read_text())
-    assert digest == PINNED_SHA256 == manifest["cache_sha256"], "Saved-image hash mismatch"
-    assert manifest["collection_uuid"] == PINNED_UUID
+    assert digest == manifest["cache_sha256"], "Saved-image hash mismatch"
+    collection_uuid = manifest["collection_uuid"]
     assert manifest["vtable_symbol"] == PINNED_CLASS
     assert manifest["structural_check_passed"] and not manifest["problems"]
-    assert manifest["chain_covered_entries"] == 439
+    # PinnedControllerInternals.hpp is compiled for exactly this many virtual functions.
+    assert manifest["chain_covered_entries"] == 439, (
+        f"AppleT8142USBXHCI has {manifest['chain_covered_entries']} virtual functions; "
+        "Digits Driver expects 439")
     assert manifest["pointer_formats"] == [8]
     symbols = {}
     for line in args.symbols.read_text().splitlines():
@@ -63,9 +64,10 @@ def main():
     version_address = symbol("_version")
     offset = file_offset(version_address)
     version = data[offset:offset + 512].split(b"\0", 1)[0]
-    assert version.startswith(b"Darwin Kernel Version 27.3.0:")
+    assert version.startswith(b"Darwin Kernel Version ")
     assert 0 < len(version) < 511
     version = version.decode("ascii")
+    assert args.kernel_version is None or version == args.kernel_version, "Collection is for a different kernel"
     anchor = symbol("__ZN15IOUSBHostDevice10gMetaClassE")
     table = int(manifest["vtable_address_unslid"], 16)
     end = int(manifest["candidate_bound_address_unslid"], 16)
@@ -93,16 +95,17 @@ def main():
     entries = rows[2:-1]
     outer = entries[0x948 // 8]
     inner = entries[0x958 // 8]
-    assert int(outer["diversity"], 16) == 0x8346
-    assert int(inner["diversity"], 16) == 0x0327
-    assert int(outer["target_unslid"], 16) == symbol("__ZN12AppleUSBXHCI12createDeviceE31tInternalUSBHostConnectionSpeedjj")
-    assert int(inner["target_unslid"], 16) == symbol("__ZN15AppleUSBXHCIARM21createIOUSBHostDeviceE31tInternalUSBHostConnectionSpeedtj")
+    factory_message = "The controller's device factory slots moved; Digits Driver hooks 0x948 and 0x958"
+    assert int(outer["diversity"], 16) == 0x8346, factory_message
+    assert int(inner["diversity"], 16) == 0x0327, factory_message
+    assert int(outer["target_unslid"], 16) == symbol("__ZN12AppleUSBXHCI12createDeviceE31tInternalUSBHostConnectionSpeedjj"), factory_message
+    assert int(inner["target_unslid"], 16) == symbol("__ZN15AppleUSBXHCIARM21createIOUSBHostDeviceE31tInternalUSBHostConnectionSpeedtj"), factory_message
     lines = [
         "// Generated offline by generate-pinned-table.py. Do not hand edit.",
         "#pragma once", "#include <stddef.h>", "#include <stdint.h>",
         "namespace XeneonPinnedController { namespace Data {",
         f'constexpr char kImageSHA256[] = "{digest}";',
-        f'constexpr char kCollectionUUID[] = "{PINNED_UUID}";',
+        f'constexpr char kCollectionUUID[] = "{collection_uuid}";',
         f"constexpr char kKernelVersion[] = {json.dumps(version)};",
         f"constexpr uintptr_t kVersionUnslid = UINT64_C({version_address:#x});",
         f"constexpr uintptr_t kAnchorUnslid = UINT64_C({anchor:#x});",
@@ -124,7 +127,7 @@ def main():
         assert args.output.read_text() == encoded, "Generated table is stale"
     else:
         args.output.write_text(encoded)
-    print(json.dumps({"output": str(args.output), "mode": "check" if args.check else "generate", "image_sha256": digest, "collection_uuid": PINNED_UUID, "version": version, "anchor_unslid": hex(anchor), "functions": len(entries), "table_bytes": end - table}))
+    print(json.dumps({"output": str(args.output), "mode": "check" if args.check else "generate", "image_sha256": digest, "collection_uuid": collection_uuid, "version": version, "anchor_unslid": hex(anchor), "functions": len(entries), "table_bytes": end - table}))
 
 
 if __name__ == "__main__":

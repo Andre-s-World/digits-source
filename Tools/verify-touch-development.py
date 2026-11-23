@@ -11,7 +11,7 @@ import sys
 def main():
     package = Path(sys.argv[1]).resolve()
     manifest = json.loads((package / "ARTIFACTS.json").read_text())
-    if manifest.get("version") != "0.1.6" or manifest.get("teamIdentifier") != "PZFJJ4L6SD":
+    if manifest.get("version") != "0.1.6" or manifest.get("teamIdentifier") != "YOUR_TEAM_ID":
         raise SystemExit("Unexpected development package version or team.")
     if len(manifest.get("files", [])) != 8:
         raise SystemExit("Incomplete development package manifest.")
@@ -39,7 +39,7 @@ def main():
         subprocess.run(["/usr/bin/codesign", "--verify", "--strict", str(bundle)], check=True)
         signature = subprocess.run(["/usr/bin/codesign", "-dv", str(bundle)],
                                    capture_output=True, text=True, check=True)
-        if "TeamIdentifier=PZFJJ4L6SD" not in signature.stderr.splitlines():
+        if "TeamIdentifier=YOUR_TEAM_ID" not in signature.stderr.splitlines():
             raise SystemExit("Unexpected code signing team.")
         signed = subprocess.run(["/usr/bin/codesign", "-d", "--entitlements", "-", "--xml", str(bundle)],
                                 capture_output=True, check=True)

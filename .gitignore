@@ -15,11 +15,11 @@ xcuserdata/
 *.pcapng
 *.core
 
-# Staged installers and payloads are published separately in digits-binary.
-Packaging/Driver/
-Packaging/Touch/
-Packaging/TouchDevelopment/
-Packaging/DriverInstaller/build/
+# Staged builds and installers are local output. Signed staging contains provisioning profiles.
+DigitsDriver/Packaging/Driver/
+DigitsDriver/Packaging/Touch/
+DigitsDriver/Packaging/TouchDevelopment/
+DigitsDriver/Packaging/DriverInstaller/build/
 
 # The current test display UUID belongs to this Mac, not every installation.
 DigitsTouch/Configuration/DigitsDisplayBinding.plist

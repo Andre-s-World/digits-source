@@ -5,7 +5,7 @@ BOOL DigitsInstallerVerifyCode(NSString *path, NSString *identifier, NSError **e
     SecStaticCodeRef code = NULL;
     SecRequirementRef requirement = NULL;
     NSString *expression = [NSString stringWithFormat:
-        @"anchor apple generic and certificate leaf[subject.OU] = \"PZFJJ4L6SD\" and identifier \"%@\"", identifier];
+        @"anchor apple generic and certificate leaf[subject.OU] = \"YOUR_TEAM_ID\" and identifier \"%@\"", identifier];
     OSStatus status = SecStaticCodeCreateWithPath((__bridge CFURLRef)[NSURL fileURLWithPath:path],
                                                  kSecCSDefaultFlags, &code);
     if (status == errSecSuccess)
