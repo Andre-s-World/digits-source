@@ -863,12 +863,6 @@
 			lastKnownFileType = sourcecode.c.objc;
 			sourceTree = "<group>";
 		};
-		A7DEEEE26EB892A98E4A14E5 = {
-			path = "DecodeUsbRecord.cpython-314.pyc";
-			isa = PBXFileReference;
-			lastKnownFileType = file;
-			sourceTree = "<group>";
-		};
 		4E198FA2B0B13581C1A5B250 = {
 			path = "build-driver.sh";
 			isa = PBXFileReference;
@@ -965,12 +959,6 @@
 			lastKnownFileType = sourcecode.c.objc;
 			sourceTree = "<group>";
 		};
-		82F6857B1B24A5084080FEBA = {
-			path = "STAGE-1-TEST.md";
-			isa = PBXFileReference;
-			lastKnownFileType = net.daringfireball.markdown;
-			sourceTree = "<group>";
-		};
 		936F4CFC78AF56513B0D4735 = {
 			path = CreationContexts_push.cpp;
 			isa = PBXFileReference;
@@ -993,12 +981,6 @@
 			path = "write-driver-distribution.py";
 			isa = PBXFileReference;
 			lastKnownFileType = text.script.python;
-			sourceTree = "<group>";
-		};
-		C67B6E81AEB1A73459448EF5 = {
-			path = "ReadCaptureBytes.cpython-314.pyc";
-			isa = PBXFileReference;
-			lastKnownFileType = file;
 			sourceTree = "<group>";
 		};
 		E7FC8A70C89D6E61C2808E9C = {
@@ -1158,12 +1140,6 @@
 			lastKnownFileType = sourcecode.cpp.cpp;
 			sourceTree = "<group>";
 		};
-		8D687EDC3EF9CA6159070B2A = {
-			path = "digits-driver-ctl.dSYM";
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.dsym;
-			sourceTree = "<group>";
-		};
 		531890BC907BDC2AAA214A4E = {
 			path = XeneonEarlyInitControl_publishStatus.cpp;
 			isa = PBXFileReference;
@@ -1174,12 +1150,6 @@
 			path = DigitsTouchDevice_Stop.cpp;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			sourceTree = "<group>";
-		};
-		0BFE39D93B0C17D51F395B52 = {
-			path = "OFFLINE-VERIFICATION.json";
-			isa = PBXFileReference;
-			lastKnownFileType = text.json;
 			sourceTree = "<group>";
 		};
 		410A54CADD0128CC934B4693 = {
@@ -1235,22 +1205,10 @@
 			lastKnownFileType = sourcecode.cpp.h;
 			sourceTree = "<group>";
 		};
-		158A6CFA72B0FC28997EE7C6 = {
-			path = PROGRESS.md;
-			isa = PBXFileReference;
-			lastKnownFileType = net.daringfireball.markdown;
-			sourceTree = "<group>";
-		};
 		CB3BDED25934502AE76FCADB = {
 			path = DigitsUSBTransport_PublishIdentity.cpp;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			sourceTree = "<group>";
-		};
-		99281F0C4DE02AE03CD4762B = {
-			path = "BOOT-READINESS.md";
-			isa = PBXFileReference;
-			lastKnownFileType = net.daringfireball.markdown;
 			sourceTree = "<group>";
 		};
 		31EAD6234B937C3321B80AEA = {
@@ -1293,12 +1251,6 @@
 			path = DigitsTouchHostController_stopBindingWatcher.m;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			sourceTree = "<group>";
-		};
-		47488367E7BFC383FE4E136D = {
-			path = ARTIFACTS.json;
-			isa = PBXFileReference;
-			lastKnownFileType = text.json;
 			sourceTree = "<group>";
 		};
 		E05E180B8897548C0677CC37 = {
@@ -1379,18 +1331,6 @@
 			lastKnownFileType = text.script.python;
 			sourceTree = "<group>";
 		};
-		5458A911648F39BFDFBDEE45 = {
-			path = "WriteCaptureSummary.cpython-314.pyc";
-			isa = PBXFileReference;
-			lastKnownFileType = file;
-			sourceTree = "<group>";
-		};
-		F525A60CD32594E1FFCDB262 = {
-			path = "STAGED-DRIVER-VERIFICATION-console.json";
-			isa = PBXFileReference;
-			lastKnownFileType = text.json;
-			sourceTree = "<group>";
-		};
 		362BF16C9A00D1F571E15318 = {
 			path = "update-driver-test.sh";
 			isa = PBXFileReference;
@@ -1427,34 +1367,16 @@
 			lastKnownFileType = sourcecode.cpp.cpp;
 			sourceTree = "<group>";
 		};
-		7D714359280756C0FF009D97 = {
-			path = DESIGN.md;
-			isa = PBXFileReference;
-			lastKnownFileType = net.daringfireball.markdown;
-			sourceTree = "<group>";
-		};
 		88E2343CF64A154BDB0F251F = {
 			path = "package-driver.sh";
 			isa = PBXFileReference;
 			lastKnownFileType = text.script.sh;
 			sourceTree = "<group>";
 		};
-		64FE003EC555FE105A941575 = {
-			path = "STAGE-2-TEST.md";
-			isa = PBXFileReference;
-			lastKnownFileType = net.daringfireball.markdown;
-			sourceTree = "<group>";
-		};
 		C785579FDCB59E6FBC2AF1A5 = {
 			path = ControlTool_printControlStatus.c;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.c;
-			sourceTree = "<group>";
-		};
-		3B80D2487EC0979FC05BCE82 = {
-			path = EXPERIMENTAL.md;
-			isa = PBXFileReference;
-			lastKnownFileType = net.daringfireball.markdown;
 			sourceTree = "<group>";
 		};
 		D0A61DD9769DD384F8640C81 = {
@@ -1499,18 +1421,6 @@
 			lastKnownFileType = sourcecode.c.c;
 			sourceTree = "<group>";
 		};
-		6E771002F35B4981E070BF19 = {
-			path = "sync-touch-014.py";
-			isa = PBXFileReference;
-			lastKnownFileType = text.script.python;
-			sourceTree = "<group>";
-		};
-		BECC4BFB742B3B54560491C1 = {
-			path = SHA256SUMS;
-			isa = PBXFileReference;
-			lastKnownFileType = text;
-			sourceTree = "<group>";
-		};
 		F08C9622D5EAF6A57A214886 = {
 			path = DigitsTouchDevice_free.cpp;
 			isa = PBXFileReference;
@@ -1521,12 +1431,6 @@
 			path = DigitsTouchHostController_applicationDidBecomeActive.m;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			sourceTree = "<group>";
-		};
-		B2EA69C87E41C443253F0594 = {
-			path = "RecordTargetPacket.cpython-314.pyc";
-			isa = PBXFileReference;
-			lastKnownFileType = file;
 			sourceTree = "<group>";
 		};
 		102EC9F43DD7B5245F40414B = {
@@ -1604,12 +1508,6 @@
 			lastKnownFileType = text.script.python;
 			sourceTree = "<group>";
 		};
-		19F183D83220CED643CA9C7E = {
-			path = "FormatReportLine.cpython-314.pyc";
-			isa = PBXFileReference;
-			lastKnownFileType = file;
-			sourceTree = "<group>";
-		};
 		365A6B105BAF60F2F44A56E0 = {
 			path = "verify-touch-development.py";
 			isa = PBXFileReference;
@@ -1622,12 +1520,6 @@
 			lastKnownFileType = sourcecode.cpp.cpp;
 			sourceTree = "<group>";
 		};
-		9567B0F0E6237F600ACE9652 = {
-			path = "DISPLAY-CONFIGURATION.md";
-			isa = PBXFileReference;
-			lastKnownFileType = net.daringfireball.markdown;
-			sourceTree = "<group>";
-		};
 		CF0F703011C92F7EA212D6F7 = {
 			path = "stage-driver-artifacts.py";
 			isa = PBXFileReference;
@@ -1638,12 +1530,6 @@
 			path = README.md;
 			isa = PBXFileReference;
 			lastKnownFileType = net.daringfireball.markdown;
-			sourceTree = "<group>";
-		};
-		1E1CC7FD9DFFA92CE4CF9E68 = {
-			path = "DecodeDigitizerReport.cpython-314.pyc";
-			isa = PBXFileReference;
-			lastKnownFileType = file;
 			sourceTree = "<group>";
 		};
 		E39D3C96659AEB7E5644C0A5 = {
@@ -1700,12 +1586,6 @@
 			lastKnownFileType = sourcecode.c.objc;
 			sourceTree = "<group>";
 		};
-		0C0E67B55ED09501460160B4 = {
-			path = README.md;
-			isa = PBXFileReference;
-			lastKnownFileType = net.daringfireball.markdown;
-			sourceTree = "<group>";
-		};
 		52D41959F231DEE63F02AC10 = {
 			path = "capture-driver.sh";
 			isa = PBXFileReference;
@@ -1730,12 +1610,6 @@
 			name = ServiceManagement.framework;
 			lastKnownFileType = wrapper.framework;
 			sourceTree = SDKROOT;
-		};
-		3C5B1D8A25ADF9C80BA64945 = {
-			path = "STAGED-DRIVER-VERIFICATION.json";
-			isa = PBXFileReference;
-			lastKnownFileType = text.json;
-			sourceTree = "<group>";
 		};
 		E2688AFB3C7C84C3D0C1B68D = {
 			path = System/Library/Frameworks/CoreGraphics.framework;
@@ -1828,12 +1702,6 @@
 			lastKnownFileType = sourcecode.c.objc;
 			sourceTree = "<group>";
 		};
-		ECCDAAB91683186463939969 = {
-			path = "PRIOR-EARLY-INIT-RESEARCH.md";
-			isa = PBXFileReference;
-			lastKnownFileType = net.daringfireball.markdown;
-			sourceTree = "<group>";
-		};
 		2D88E816677D7883E595B117 = {
 			path = ControlTool_sendControlAction.c;
 			isa = PBXFileReference;
@@ -1875,12 +1743,6 @@
 			path = "build-touch.sh";
 			isa = PBXFileReference;
 			lastKnownFileType = text.script.sh;
-			sourceTree = "<group>";
-		};
-		9BC549918DADFA336B2EBE77 = {
-			path = AGENTS.md;
-			isa = PBXFileReference;
-			lastKnownFileType = net.daringfireball.markdown;
 			sourceTree = "<group>";
 		};
 		3F5814C24DF10C6A13722CD7 = {
@@ -1938,18 +1800,6 @@
 			lastKnownFileType = sourcecode.cpp.h;
 			sourceTree = "<group>";
 		};
-		F9492605DE70B1E2B468C0E9 = {
-			path = "Digits Driver.kext.dSYM";
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.dsym;
-			sourceTree = "<group>";
-		};
-		0177C8D9FAE1DBACD181AB67 = {
-			path = "CODING-STYLE.md";
-			isa = PBXFileReference;
-			lastKnownFileType = net.daringfireball.markdown;
-			sourceTree = "<group>";
-		};
 		701D84B0B5778AFC37B3EDA5 = {
 			path = DigitsTouchServicesChanged.m;
 			isa = PBXFileReference;
@@ -1984,12 +1834,6 @@
 			path = DigitsTouchDevice_SubmitPhysicalReport.cpp;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			sourceTree = "<group>";
-		};
-		4EC476D29A9EC4832CBD647F = {
-			path = "RunReportCapture.cpython-314.pyc";
-			isa = PBXFileReference;
-			lastKnownFileType = file;
 			sourceTree = "<group>";
 		};
 		7D380C5A1AFF5D1E2CDA9957 = {
@@ -2078,12 +1922,6 @@
 			lastKnownFileType = sourcecode.cpp.cpp;
 			sourceTree = "<group>";
 		};
-		0AA0B6BA90729258373D0288 = {
-			path = "DecodePcapHeader.cpython-314.pyc";
-			isa = PBXFileReference;
-			lastKnownFileType = file;
-			sourceTree = "<group>";
-		};
 		484F5D655A8AA0663BAF4AE4 = {
 			path = StringRequestPolicy.hpp;
 			isa = PBXFileReference;
@@ -2156,12 +1994,6 @@
 			lastKnownFileType = sourcecode.cpp.cpp;
 			sourceTree = "<group>";
 		};
-		C1136282032FA76E484857EC = {
-			path = "Digits Driver.kext";
-			isa = PBXFileReference;
-			lastKnownFileType = "wrapper.kernel-extension";
-			sourceTree = "<group>";
-		};
 		BEC9EF3ADD2CE0CCD07132AC = {
 			path = FormatReportLine.py;
 			isa = PBXFileReference;
@@ -2172,12 +2004,6 @@
 			path = DigitsTouchHostController_associationChanged.m;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.objc;
-			sourceTree = "<group>";
-		};
-		569E7B922DCD1AEC5DF90FA0 = {
-			path = "digits-driver-ctl";
-			isa = PBXFileReference;
-			lastKnownFileType = "compiled.mach-o.executable";
 			sourceTree = "<group>";
 		};
 		7B5FD69AF41FE52B1AD14B77 = {
@@ -2264,12 +2090,6 @@
 			lastKnownFileType = sourcecode.cpp.cpp;
 			sourceTree = "<group>";
 		};
-		41D8159FDFD44B83534C5C11 = {
-			path = DESIGN.md;
-			isa = PBXFileReference;
-			lastKnownFileType = net.daringfireball.markdown;
-			sourceTree = "<group>";
-		};
 		09323B3857D1083E58605D66 = {
 			path = EarlyInitRuntime_armController.cpp;
 			isa = PBXFileReference;
@@ -2280,24 +2100,6 @@
 			path = EarlyInitRuntime_controllerPublished.cpp;
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
-			sourceTree = "<group>";
-		};
-		B91BC0E1A3F52A41BBEEEB96 = {
-			path = Digits.app;
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.application;
-			sourceTree = "<group>";
-		};
-		96F4F0021744D90F03899DC6 = {
-			path = local.digits.touch.dext.dSYM;
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.dsym;
-			sourceTree = "<group>";
-		};
-		BFB492D4B04589D1D730C90A = {
-			path = Digits.app.dSYM;
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.dsym;
 			sourceTree = "<group>";
 		};
 		2F8E992FE486473D12A39F48 = {
@@ -2318,11 +2120,6 @@
 			lastKnownFileType = sourcecode.cpp.cpp;
 			sourceTree = "<group>";
 		};
-		4D08000F65F72C1186DF5A1B = {
-			isa = PBXFileReference;
-			path = SHA256SUMS;
-			sourceTree = "<group>";
-		};
 		EDE56B87295A4E4181D8D4EB = {
 			path = EarlyInitRuntime_observeControllerPublication.cpp;
 			isa = PBXFileReference;
@@ -2341,12 +2138,6 @@
 			lastKnownFileType = text.plist;
 			sourceTree = "<group>";
 		};
-		63074AB6592C49C807028212 = {
-			path = ARTIFACTS.json;
-			isa = PBXFileReference;
-			lastKnownFileType = text.json;
-			sourceTree = "<group>";
-		};
 		3F350A0F8972AF34967E6D14 /* DigitsDisplayBindingPublisher_devicePublished.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DigitsDisplayBindingPublisher_devicePublished.cpp; sourceTree = "<group>"; };
 		F436084C84A6A0BEC784E0A0 /* DigitsDisplayBindingPublisher_free.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DigitsDisplayBindingPublisher_free.cpp; sourceTree = "<group>"; };
 		A9A6BF4AA67C2951F6ABC730 /* DigitsDisplayBindingPublisher_init.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DigitsDisplayBindingPublisher_init.cpp; sourceTree = "<group>"; };
@@ -2360,7 +2151,6 @@
 		0A1C0DD73E5B58B9E98209D1 /* DigitsUSBTransport_CopyPublishedDisplayBinding.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DigitsUSBTransport_CopyPublishedDisplayBinding.cpp; sourceTree = "<group>"; };
 		1EC0B26D4D94F23FB67DC092 /* DigitsUSBTransport_RestorePublishedDisplayBinding.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DigitsUSBTransport_RestorePublishedDisplayBinding.cpp; sourceTree = "<group>"; };
 		8BDE0D6E283EC314F605D25B /* configure-display-binding.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "configure-display-binding.sh"; sourceTree = "<group>"; };
-		DB8842192CA2CCE3BD0731DE /* HELPER-FREE-BINDING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "HELPER-FREE-BINDING.md"; sourceTree = "<group>"; };
 		E732BED31ABBF2C87B6F69AD /* update-display-binding.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "update-display-binding.sh"; sourceTree = "<group>"; };
 		00043FE7451292D3458EE944 /* DigitsTesterController_reset.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DigitsTesterController_reset.m; sourceTree = "<group>"; };
 		06763C59B57AF00442788573 /* DigitsCopyTouchRuntimeState.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DigitsCopyTouchRuntimeState.m; sourceTree = "<group>"; };
@@ -2723,7 +2513,6 @@
 			children = (
 				C98A944E590FE626A0B15308,
 				8EC1BB967D649F39E3EFC136,
-				41D8159FDFD44B83534C5C11,
 			);
 			sourceTree = "<group>";
 		};
@@ -2745,9 +2534,7 @@
 			path = Packaging;
 			isa = PBXGroup;
 			children = (
-				55FAC35F44F304C67EE2C94C,
 				4890414F873A24F667768BB9,
-				BDDFD391C1333EE09CA3F275,
 				E3C9AE17C65AFAA99F5F230B,
 			);
 			sourceTree = "<group>";
@@ -2760,20 +2547,10 @@
 			);
 			sourceTree = "<group>";
 		};
-		100F6712C173547428F5A797 = {
-			path = DebugSymbols;
-			isa = PBXGroup;
-			children = (
-				F9492605DE70B1E2B468C0E9,
-				8D687EDC3EF9CA6159070B2A,
-			);
-			sourceTree = "<group>";
-		};
 		A671E7C832BE69DBD2727BD8 = {
 			path = ReportReader;
 			isa = PBXGroup;
 			children = (
-				D4FEB7307B49F211BA7509FE,
 				B9DFA7EC139FBB2AF0D9F195,
 				D964C2AB304220E5D7D19217,
 				7976F2DB6ECEB6A111DE7105,
@@ -2844,21 +2621,6 @@
 			children = (
 				8E3E28879FAB621F0FCA2410,
 				2F6C10AAE2FCB816879745DE,
-			);
-			sourceTree = "<group>";
-		};
-		D4FEB7307B49F211BA7509FE = {
-			path = __pycache__;
-			isa = PBXGroup;
-			children = (
-				1E1CC7FD9DFFA92CE4CF9E68,
-				0AA0B6BA90729258373D0288,
-				A7DEEEE26EB892A98E4A14E5,
-				19F183D83220CED643CA9C7E,
-				C67B6E81AEB1A73459448EF5,
-				B2EA69C87E41C443253F0594,
-				4EC476D29A9EC4832CBD647F,
-				5458A911648F39BFDFBDEE45,
 			);
 			sourceTree = "<group>";
 		};
@@ -2937,7 +2699,6 @@
 				9FE1C77B283D77047D40FE6B,
 				44BCC43E501387943AB19054,
 				210D1940843D5BED5013BDAF,
-				7D714359280756C0FF009D97,
 			);
 			sourceTree = "<group>";
 		};
@@ -3042,12 +2803,8 @@
 				A671E7C832BE69DBD2727BD8,
 				6FE6EBB8AA3EE4084946FDB3,
 				52D41959F231DEE63F02AC10,
-				0BFE39D93B0C17D51F395B52,
 				62201FCD81DBB0B07FCBEBEA,
 				580DF2E2684A21CB5166221B,
-				0C0E67B55ED09501460160B4,
-				F525A60CD32594E1FFCDB262,
-				3C5B1D8A25ADF9C80BA64945,
 			);
 			sourceTree = "<group>";
 		};
@@ -3057,11 +2814,8 @@
 			children = (
 				50606E78C02BBD7AF721A289,
 				58DF0D6E5FFDE4A535DB2715,
-				9DD1A8E1F56FCB7470A0DD3A,
 				5F3E9C6FFEA5D6865A6B85E1,
 				B2F2C67D4F7D03DE01A4F33B,
-				9BC549918DADFA336B2EBE77,
-				158A6CFA72B0FC28997EE7C6,
 				21C13FF534CCFEFAE06ED147,
 				26D4BD63660376F0FDFF2922,
 				4499E40F0E0A49B57D8C998B,
@@ -3200,21 +2954,6 @@
 			);
 			sourceTree = "<group>";
 		};
-		9DD1A8E1F56FCB7470A0DD3A = {
-			path = Documentation;
-			isa = PBXGroup;
-			children = (
-				99281F0C4DE02AE03CD4762B,
-				0177C8D9FAE1DBACD181AB67,
-				9567B0F0E6237F600ACE9652,
-				3B80D2487EC0979FC05BCE82,
-				ECCDAAB91683186463939969,
-				82F6857B1B24A5084080FEBA,
-				64FE003EC555FE105A941575,
-				DB8842192CA2CCE3BD0731DE,
-			);
-			sourceTree = "<group>";
-		};
 		B2F2C67D4F7D03DE01A4F33B = {
 			path = Tools;
 			isa = PBXGroup;
@@ -3230,45 +2969,12 @@
 				CF0F703011C92F7EA212D6F7,
 				9193BE85D12441C34278AACF,
 				E7FC8A70C89D6E61C2808E9C,
-				6E771002F35B4981E070BF19,
 				B20BDBE750EA13062D1387AB,
 				365A6B105BAF60F2F44A56E0,
 				4F515CC2F87F4975A62780AD,
 				FB9ABB7FE5896BCA5B20F699,
 				5C47513699A3C5F7335BE391,
 				E732BED31ABBF2C87B6F69AD,
-			);
-			sourceTree = "<group>";
-		};
-		55FAC35F44F304C67EE2C94C = {
-			path = Driver;
-			isa = PBXGroup;
-			children = (
-				100F6712C173547428F5A797,
-				47488367E7BFC383FE4E136D,
-				C1136282032FA76E484857EC,
-				569E7B922DCD1AEC5DF90FA0,
-				BECC4BFB742B3B54560491C1,
-			);
-			sourceTree = "<group>";
-		};
-		54175717BAC1858F4E878E30 = {
-			path = DebugSymbols;
-			isa = PBXGroup;
-			children = (
-				BFB492D4B04589D1D730C90A,
-				96F4F0021744D90F03899DC6,
-			);
-			sourceTree = "<group>";
-		};
-		BDDFD391C1333EE09CA3F275 = {
-			path = TouchDevelopment;
-			isa = PBXGroup;
-			children = (
-				54175717BAC1858F4E878E30,
-				63074AB6592C49C807028212,
-				B91BC0E1A3F52A41BBEEEB96,
-				4D08000F65F72C1186DF5A1B,
 			);
 			sourceTree = "<group>";
 		};
