@@ -1,0 +1,14 @@
+#!/bin/sh
+# Activation remains a user action. Native drivers restore saved metadata at boot.
+set -eu
+if [ "$(/usr/bin/id -u)" -ne 0 ] || [ "${3-}" != '/' ]; then
+    exit 1
+fi
+/usr/bin/codesign --verify --deep --strict '/Applications/Digits.app'
+/usr/sbin/chown -R root:wheel '/Applications/Digits.app'
+/bin/chmod -R go-w '/Applications/Digits.app'
+# Preinstall stopped this exact legacy helper; remove only its old definition.
+# Neither extension is deactivated or unloaded by the installer.
+/bin/rm -f '/Library/LaunchDaemons/local.digits.touch.association.plist'
+echo 'Digits and Digits Touch installed. Open Digits and choose Enable Touch.'
+echo 'No background helper is installed. Your display configuration is unchanged.'

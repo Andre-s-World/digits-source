@@ -1,0 +1,37 @@
+#ifndef DIGITS_USB_TRANSPORT_IIG
+#define DIGITS_USB_TRANSPORT_IIG
+#include <DriverKit/IOService.iig>
+#include <DriverKit/IOUserClient.iig>
+#include <USBDriverKit/IOUSBHostPipe.iig>
+#include <stdint.h>
+#include <stddef.h>
+struct DigitsTouchDisplayBinding;
+struct DigitsTouchStatus;
+class DigitsUSBTransport : public IOService {
+public:
+    virtual bool init() override;
+    virtual void free() override;
+    virtual kern_return_t Start(IOService *provider) override;
+    virtual kern_return_t Stop(IOService *provider) override;
+    virtual kern_return_t CopyProperties(OSDictionary **properties) override;
+    virtual kern_return_t NewUserClient(uint32_t type, IOUserClient **userClient) override;
+    virtual void ReadComplete(OSAction *action, IOReturn status, uint32_t actualByteCount,
+                              uint64_t completionTimestamp) TYPE(IOUSBHostPipe::CompleteAsyncIO);
+    kern_return_t ValidateProvider() LOCALONLY;
+    kern_return_t PrepareBuffers() LOCALONLY;
+    kern_return_t ValidateReportDescriptor() LOCALONLY;
+    kern_return_t QueueDigitizerRead() LOCALONLY;
+    kern_return_t ForwardDigitizerReport(const uint8_t *report, size_t length) LOCALONLY;
+    kern_return_t BindDisplay(const DigitsTouchDisplayBinding *binding) LOCALONLY;
+    kern_return_t UnbindDisplay() LOCALONLY;
+    kern_return_t CopyBinding(uint64_t generation, DigitsTouchDisplayBinding *binding) LOCALONLY;
+    kern_return_t CopyActiveBinding(DigitsTouchDisplayBinding *binding, uint64_t *generation) LOCALONLY;
+    kern_return_t CopyPublishedDisplayBinding(DigitsTouchDisplayBinding *binding) LOCALONLY;
+    kern_return_t RestorePublishedDisplayBinding() LOCALONLY;
+    kern_return_t CopyStatus(DigitsTouchStatus *status) LOCALONLY;
+    kern_return_t PublishIdentity(const char *bindingState) LOCALONLY;
+    kern_return_t PublishTouchState(const char *state, kern_return_t result) LOCALONLY;
+    void CloseMetadataClient() LOCALONLY;
+    void ReleaseResources() LOCALONLY;
+};
+#endif

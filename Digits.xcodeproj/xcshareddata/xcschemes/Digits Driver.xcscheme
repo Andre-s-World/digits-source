@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<Scheme LastUpgradeVersion="2700" version="1.7">
+   <BuildAction parallelizeBuildables="YES" buildImplicitDependencies="YES" runPostActionsOnFailure="NO">
+      <BuildActionEntries>
+         <BuildActionEntry buildForTesting="YES" buildForRunning="YES" buildForProfiling="YES" buildForArchiving="YES" buildForAnalyzing="YES">
+            <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="24BFDF4858FE1D1644CB72FE" BuildableName="Digits Driver.kext" BlueprintName="Digits Driver" ReferencedContainer="container:Digits.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry buildForTesting="YES" buildForRunning="YES" buildForProfiling="YES" buildForArchiving="YES" buildForAnalyzing="YES">
+            <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="4D658C4D6933454D46BFFEE7" BuildableName="digits-driver-ctl" BlueprintName="Digits Driver Control" ReferencedContainer="container:Digits.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
+   </BuildAction>
+   <TestAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" shouldUseLaunchSchemeArgsEnv="YES" onlyGenerateCoverageForSpecifiedTargets="NO">
+      <MacroExpansion>
+         <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="24BFDF4858FE1D1644CB72FE" BuildableName="Digits Driver.kext" BlueprintName="Digits Driver" ReferencedContainer="container:Digits.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <Testables>
+      </Testables>
+   </TestAction>
+   <LaunchAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" launchStyle="0" useCustomWorkingDirectory="NO" ignoresPersistentStateOnLaunch="NO" debugDocumentVersioning="YES" debugServiceExtension="internal" allowLocationSimulation="YES">
+      <MacroExpansion>
+         <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="24BFDF4858FE1D1644CB72FE" BuildableName="Digits Driver.kext" BlueprintName="Digits Driver" ReferencedContainer="container:Digits.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <CommandLineArguments>
+      </CommandLineArguments>
+      <PathRunnable runnableDebuggingMode="0" FilePath="/usr/bin/true" />
+   </LaunchAction>
+   <ProfileAction buildConfiguration="Release" shouldUseLaunchSchemeArgsEnv="YES" savedToolIdentifier="" useCustomWorkingDirectory="NO" debugDocumentVersioning="YES">
+      <MacroExpansion>
+         <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="24BFDF4858FE1D1644CB72FE" BuildableName="Digits Driver.kext" BlueprintName="Digits Driver" ReferencedContainer="container:Digits.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <PathRunnable runnableDebuggingMode="0" FilePath="/usr/bin/true" />
+   </ProfileAction>
+   <AnalyzeAction buildConfiguration="Debug">
+   </AnalyzeAction>
+   <ArchiveAction buildConfiguration="Release" revealArchiveInOrganizer="YES">
+   </ArchiveAction>
+</Scheme>

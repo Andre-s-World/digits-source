@@ -1,0 +1,800 @@
+{
+  "name": "Digits",
+  "options": {
+    "bundleIdPrefix": "local.digits",
+    "createIntermediateGroups": true,
+    "groupSortPosition": "top",
+    "generateEmptyDirectories": true,
+    "xcodeVersion": "27.0",
+    "developmentLanguage": "en",
+    "generateImplicitSchemes": false
+  },
+  "configs": {
+    "Debug": "debug",
+    "Release": "release"
+  },
+  "settings": {
+    "base": {
+      "ARCHS": "arm64",
+      "ONLY_ACTIVE_ARCH": "YES",
+      "MACOSX_DEPLOYMENT_TARGET": "27.0",
+      "SDKROOT": "macosx",
+      "CLANG_ENABLE_OBJC_ARC": "YES",
+      "GCC_C_LANGUAGE_STANDARD": "gnu11",
+      "CLANG_CXX_LANGUAGE_STANDARD": "gnu++17",
+      "GCC_TREAT_WARNINGS_AS_ERRORS": "YES",
+      "WARNING_CFLAGS": [
+        "-Wall",
+        "-Wextra"
+      ],
+      "ENABLE_USER_SCRIPT_SANDBOXING": "NO",
+      "CODE_SIGN_STYLE": "Manual",
+      "DEVELOPMENT_TEAM": "",
+      "ENABLE_HARDENED_RUNTIME": "NO",
+      "SKIP_INSTALL": "YES",
+      "GCC_NO_COMMON_BLOCKS": "YES",
+      "ENABLE_DEBUG_DYLIB": "NO",
+      "CODE_SIGNING_ALLOWED": "NO"
+    },
+    "configs": {
+      "Debug": {
+        "GCC_OPTIMIZATION_LEVEL": "0",
+        "DEBUG_INFORMATION_FORMAT": "dwarf-with-dsym",
+        "GCC_GENERATE_DEBUGGING_SYMBOLS": "YES",
+        "COPY_PHASE_STRIP": "NO",
+        "STRIP_INSTALLED_PRODUCT": "NO"
+      },
+      "Release": {
+        "GCC_OPTIMIZATION_LEVEL": "2",
+        "DEBUG_INFORMATION_FORMAT": "dwarf-with-dsym"
+      }
+    }
+  },
+  "targets": {
+    "Digits Driver": {
+      "type": "bundle",
+      "platform": "macOS",
+      "sources": [
+        {
+          "path": "DigitsDriver/KextEntry.c"
+        },
+        {
+          "path": "DigitsDriver/Source/Binding/DigitsDisplayBindingPublisher_devicePublished.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Binding/DigitsDisplayBindingPublisher_free.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Binding/DigitsDisplayBindingPublisher_init.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Binding/DigitsDisplayBindingPublisher_observePhysicalDevices.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Binding/DigitsDisplayBindingPublisher_publishToPhysicalDevice.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Binding/DigitsDisplayBindingPublisher_registration.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Binding/DigitsDisplayBindingPublisher_start.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Binding/DigitsDisplayBindingPublisher_stop.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Binding/DigitsDisplayBindingPublisher_validateBinding.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Contexts/CreationContexts_claim.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Contexts/CreationContexts_pop.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Contexts/CreationContexts_push.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Control/XeneonEarlyInitControl_probe.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Control/XeneonEarlyInitControl_publishStatus.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Control/XeneonEarlyInitControl_registration.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Control/XeneonEarlyInitControl_setProperties.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Controller/PinnedController_addSlide.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Controller/PinnedController_discardUnpublished.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Controller/PinnedController_prepare.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Controller/PinnedController_signEntry.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Controller/PinnedController_signVptr.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Controller/PinnedController_statusName.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Controller/PinnedController_validUnsignedCodeAddress.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Device/XeneonStringDevice_deviceRequest.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Device/XeneonStringDevice_initWithController.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Device/XeneonStringDevice_registration.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Device/XeneonStringDevice_withController.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Hook/EarlyInitRuntime_arm.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Hook/EarlyInitRuntime_armController.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Hook/EarlyInitRuntime_controllerPublished.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Hook/EarlyInitRuntime_disableAction.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Hook/EarlyInitRuntime_disarm.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Hook/EarlyInitRuntime_discardBeforePublication.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Hook/EarlyInitRuntime_findStartupController.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Hook/EarlyInitRuntime_findTargetController.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Hook/EarlyInitRuntime_observeControllerPublication.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Hook/EarlyInitRuntime_publishAction.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Hook/EarlyInitRuntime_registryClassMatches.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Hook/EarlyInitRuntime_registryNumberMatches.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Hook/EarlyInitRuntime_requestsEnabled.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Hook/EarlyInitRuntime_state.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Hook/XeneonEarlyInitHasPinnedTopology.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Hook/XeneonEarlyInitRecordQualifiedString.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Hook/XeneonEarlyInitRequestsEnabled.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Hook/XeneonEarlyInitStart.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Hook/XeneonEarlyInitStop.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Hook/XeneonFactoryInner.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Hook/XeneonFactoryOuter.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Validation/DeviceIdentity_snapshotCompletedDescriptor.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Validation/StringRequest_boundedCopyLength.cpp"
+        },
+        {
+          "path": "DigitsDriver/Source/Validation/StringRequest_qualifiesEnumeration.cpp"
+        },
+        {
+          "path": "DigitsDriver/CallableFactory.hpp",
+          "buildPhase": "none"
+        },
+        {
+          "path": "DigitsDriver/CreationContext.hpp",
+          "buildPhase": "none"
+        },
+        {
+          "path": "DigitsDriver/DigitsDisplayBindingPublisher.hpp",
+          "buildPhase": "none"
+        },
+        {
+          "path": "DigitsDriver/EarlyInitRuntime.hpp",
+          "buildPhase": "none"
+        },
+        {
+          "path": "DigitsDriver/PinnedControllerInternals.hpp",
+          "buildPhase": "none"
+        },
+        {
+          "path": "DigitsDriver/PinnedControllerShadow.hpp",
+          "buildPhase": "none"
+        },
+        {
+          "path": "DigitsDriver/PinnedControllerTable.generated.hpp",
+          "buildPhase": "none"
+        },
+        {
+          "path": "DigitsDriver/StringRequestInternals.hpp",
+          "buildPhase": "none"
+        },
+        {
+          "path": "DigitsDriver/StringRequestPolicy.hpp",
+          "buildPhase": "none"
+        },
+        {
+          "path": "DigitsDriver/XeneonStringDevice.hpp",
+          "buildPhase": "none"
+        },
+        {
+          "path": "DigitsDriver/sdk27-pm-types-compile-only.h",
+          "buildPhase": "none"
+        }
+      ],
+      "settings": {
+        "base": {
+          "PRODUCT_NAME": "Digits Driver",
+          "PRODUCT_BUNDLE_IDENTIFIER": "local.digits.driver",
+          "EXECUTABLE_NAME": "DigitsDriver",
+          "INFOPLIST_FILE": "DigitsDriver/Info.plist",
+          "GENERATE_INFOPLIST_FILE": "NO",
+          "WRAPPER_EXTENSION": "kext",
+          "MACH_O_TYPE": "mh_execute",
+          "CODE_SIGNING_ALLOWED": "NO",
+          "ARCHS": "arm64e",
+          "VALID_ARCHS": "arm64e",
+          "ONLY_ACTIVE_ARCH": "NO",
+          "CLANG_ENABLE_OBJC_ARC": "NO",
+          "CLANG_ENABLE_MODULES": "NO",
+          "GCC_ENABLE_CPP_RTTI": "NO",
+          "GCC_ENABLE_CPP_EXCEPTIONS": "NO",
+          "GCC_SYMBOLS_PRIVATE_EXTERN": "NO",
+          "GCC_INLINES_ARE_PRIVATE_EXTERN": "NO",
+          "GENERATE_KERNEL_MODULE_INFO_FILE": "NO",
+          "ENABLE_APPLE_KEXT_CODE_GENERATION": "YES",
+          "GCC_ENABLE_KERNEL_DEVELOPMENT": "NO",
+          "GCC_USE_STANDARD_INCLUDE_SEARCHING": "YES",
+          "GCC_PREPROCESSOR_DEFINITIONS": [
+            "KERNEL",
+            "XENEON_SDK27_COMPILE_ONLY_PM_TYPES"
+          ],
+          "KERNEL_EXTENSION_HEADER_SEARCH_PATHS": "",
+          "HEADER_SEARCH_PATHS": [
+            "$(SRCROOT)/DigitsDriver"
+          ],
+          "OTHER_CFLAGS": [
+            "-fptrauth-kernel-abi-version",
+            "-fptrauth-function-pointer-type-discrimination",
+            "-ffreestanding",
+            "-fno-builtin",
+            "-fno-stack-protector",
+            "-isystem",
+            "$(SDKROOT)/System/Library/Frameworks/Kernel.framework/Versions/A/Headers",
+            "-Wno-deprecated-declarations",
+            "-UKERNEL_PRIVATE",
+            "-UDRIVER_PRIVATE",
+            "-UAPPLE",
+            "-UNeXT"
+          ],
+          "CLANG_CXX_LIBRARY": "",
+          "LINK_WITH_STANDARD_LIBRARIES": "NO",
+          "OTHER_LDFLAGS": [
+            "-Xlinker",
+            "-undefined",
+            "-Xlinker",
+            "dynamic_lookup",
+            "-Xlinker",
+            "-no_adhoc_codesign"
+          ],
+          "GCC_PREFIX_HEADER": "",
+          "GCC_PRECOMPILE_PREFIX_HEADER": "NO",
+          "STRIP_INSTALLED_PRODUCT": "NO",
+          "COPY_PHASE_STRIP": "NO",
+          "ENABLE_DEBUG_DYLIB": "NO",
+          "LD_RUNPATH_SEARCH_PATHS": ""
+        }
+      },
+      "productName": "Digits Driver"
+    },
+    "Digits Driver Control": {
+      "type": "tool",
+      "platform": "macOS",
+      "sources": [
+        {
+          "path": "DigitsDriver/ControlTool"
+        }
+      ],
+      "settings": {
+        "base": {
+          "PRODUCT_NAME": "digits-driver-ctl",
+          "HEADER_SEARCH_PATHS": [
+            "$(SRCROOT)/DigitsDriver/ControlTool"
+          ],
+          "CODE_SIGNING_ALLOWED": "NO"
+        }
+      },
+      "dependencies": [
+        {
+          "sdk": "IOKit.framework"
+        },
+        {
+          "sdk": "CoreFoundation.framework"
+        }
+      ],
+      "productName": "digits-driver-ctl"
+    },
+    "Digits Touch DEXT": {
+      "type": "bundle",
+      "platform": "macOS",
+      "productName": "local.digits.touch",
+      "sources": [
+        {
+          "path": "DigitsTouch/Drivers",
+          "excludes": [
+            "**/*.md",
+            "**/*.py",
+            "**/Generated/**"
+          ]
+        }
+      ],
+      "settings": {
+        "base": {
+          "PRODUCT_BUNDLE_IDENTIFIER": "local.digits.touch",
+          "PRODUCT_NAME": "local.digits.touch",
+          "SDKROOT": "driverkit",
+          "SUPPORTED_PLATFORMS": "driverkit",
+          "DRIVERKIT_DEPLOYMENT_TARGET": "27.0",
+          "INFOPLIST_FILE": "DigitsTouch/Configuration/Driver-Info.plist",
+          "GENERATE_INFOPLIST_FILE": "NO",
+          "CODE_SIGN_ENTITLEMENTS": "DigitsTouch/Configuration/Driver.entitlements",
+          "HEADER_SEARCH_PATHS": [
+            "$(SRCROOT)/DigitsTouch/Drivers/USB",
+            "$(SRCROOT)/DigitsTouch/Drivers/Touch",
+            "$(SRCROOT)/DigitsTouch/Drivers/Control",
+            "$(SRCROOT)/DigitsTouch/Shared",
+            "$(DERIVED_SOURCES_DIR)",
+            "$(SRCROOT)/DigitsTouch/Drivers/UserClient",
+            "$(SRCROOT)/DigitsTouch/Drivers/Shared"
+          ],
+          "OTHER_LDFLAGS": [
+            "$(inherited)",
+            "-framework",
+            "DriverKit",
+            "-framework",
+            "HIDDriverKit",
+            "-framework",
+            "USBDriverKit"
+          ],
+          "CLANG_CXX_LANGUAGE_STANDARD": "gnu++20",
+          "GCC_ENABLE_CPP_EXCEPTIONS": "NO",
+          "GCC_ENABLE_CPP_RTTI": "NO",
+          "SKIP_INSTALL": "YES",
+          "MARKETING_VERSION": "0.1.6",
+          "CURRENT_PROJECT_VERSION": "0.1.6",
+          "GCC_PREPROCESSOR_DEFINITIONS": [
+            "$(inherited)",
+            "DIGITS_USB_CAPTURE_ONLY=0"
+          ]
+        },
+        "configs": {
+          "Debug": {
+            "CODE_SIGN_ENTITLEMENTS": "DigitsTouch/Configuration/Driver-Development.entitlements",
+            "GCC_PREPROCESSOR_DEFINITIONS": [
+              "$(inherited)",
+              "DEBUG=1",
+              "DIGITS_DEVELOPMENT_USERCLIENT_ACCESS=1",
+              "DIGITS_DEVELOPMENT_TEAM_IDENTIFIER=\\\"$(DEVELOPMENT_TEAM)\\\""
+            ],
+            "INFOPLIST_FILE": "DigitsTouch/Configuration/Driver-Development-Info.plist"
+          }
+        }
+      }
+    },
+    "Digits Touch": {
+      "type": "application",
+      "platform": "macOS",
+      "productName": "Digits",
+      "sources": [
+        {
+          "path": "DigitsTouch/Host",
+          "excludes": [
+            "**/*.md"
+          ]
+        }
+      ],
+      "settings": {
+        "base": {
+          "PRODUCT_NAME": "Digits",
+          "PRODUCT_BUNDLE_IDENTIFIER": "local.digits.touch.host",
+          "INFOPLIST_FILE": "DigitsTouch/Configuration/Host-Info.plist",
+          "GENERATE_INFOPLIST_FILE": "NO",
+          "CODE_SIGN_ENTITLEMENTS": "DigitsTouch/Configuration/Host.entitlements",
+          "HEADER_SEARCH_PATHS": [
+            "$(SRCROOT)/DigitsTouch/Host",
+            "$(SRCROOT)/DigitsTouch/Shared",
+            "$(SRCROOT)/DigitsTouch/Host/Source",
+            "$(SRCROOT)/DigitsTouch/Drivers/Shared"
+          ],
+          "MARKETING_VERSION": "0.1.6",
+          "CURRENT_PROJECT_VERSION": "0.1.6",
+          "SKIP_INSTALL": "NO",
+          "ENABLE_HARDENED_RUNTIME": "YES"
+        },
+        "configs": {
+          "Debug": {
+            "CODE_SIGN_ENTITLEMENTS": "DigitsTouch/Configuration/Host-Development.entitlements",
+            "GCC_PREPROCESSOR_DEFINITIONS": [
+              "$(inherited)",
+              "DEBUG=1",
+              "DIGITS_DEVELOPMENT_USERCLIENT_ACCESS=1",
+              "DIGITS_DEVELOPMENT_TEAM_IDENTIFIER=\\\"$(DEVELOPMENT_TEAM)\\\""
+            ]
+          }
+        }
+      },
+      "dependencies": [
+        {
+          "sdk": "AppKit.framework"
+        },
+        {
+          "sdk": "CoreGraphics.framework"
+        },
+        {
+          "sdk": "IOKit.framework"
+        },
+        {
+          "sdk": "SystemExtensions.framework"
+        },
+        {
+          "sdk": "Security.framework"
+        },
+        {
+          "target": "Digits Touch DEXT",
+          "embed": false
+        },
+        {
+          "sdk": "ColorSync.framework"
+        },
+        {
+          "sdk": "ServiceManagement.framework"
+        },
+        {
+          "sdk": "IOUSBHost.framework"
+        }
+      ],
+      "postBuildScripts": [
+        {
+          "name": "Embed Digits Touch DriverKit extension",
+          "script": "set -eu\nmkdir -p \"$TARGET_BUILD_DIR/$CONTENTS_FOLDER_PATH/Library/SystemExtensions\"\n/usr/bin/ditto \"$BUILD_DIR/$CONFIGURATION-driverkit/local.digits.touch.dext\" \"$TARGET_BUILD_DIR/$CONTENTS_FOLDER_PATH/Library/SystemExtensions/local.digits.touch.dext\"\n# Remove a stale daemon definition from incremental builds before code signing.\nrm -f \"$TARGET_BUILD_DIR/$CONTENTS_FOLDER_PATH/Library/LaunchDaemons/local.digits.touch.association.plist\"\n",
+          "basedOnDependencyAnalysis": false
+        }
+      ]
+    },
+    "Digits Maintenance": {
+      "type": "tool",
+      "platform": "macOS",
+      "productName": "digits-maintenance",
+      "sources": [
+        {
+          "path": "DigitsApp/Maintenance/Source"
+        }
+      ],
+      "settings": {
+        "base": {
+          "PRODUCT_NAME": "digits-maintenance",
+          "PRODUCT_BUNDLE_IDENTIFIER": "local.digits.maintenance",
+          "CODE_SIGNING_ALLOWED": "NO"
+        }
+      },
+      "dependencies": [
+        {
+          "sdk": "Foundation.framework"
+        }
+      ]
+    },
+    "Digits": {
+      "type": "application",
+      "platform": "macOS",
+      "productName": "Digits",
+      "sources": [
+        {
+          "path": "DigitsApp/Source"
+        },
+        {
+          "path": "DigitsTests/Source"
+        },
+        {
+          "path": "DigitsApp/Resources",
+          "buildPhase": "resources"
+        }
+      ],
+      "settings": {
+        "base": {
+          "PRODUCT_NAME": "Digits",
+          "PRODUCT_BUNDLE_IDENTIFIER": "local.digits.touch.host",
+          "INFOPLIST_FILE": "DigitsApp/Configuration/Info.plist",
+          "GENERATE_INFOPLIST_FILE": "NO",
+          "CODE_SIGN_ENTITLEMENTS": "DigitsTouch/Configuration/Host-Development.entitlements",
+          "HEADER_SEARCH_PATHS": [
+            "$(SRCROOT)/DigitsApp/Source",
+            "$(SRCROOT)/DigitsApp/Source/Operations",
+            "$(SRCROOT)/DigitsTests/Source"
+          ],
+          "MARKETING_VERSION": "0.2.7",
+          "CURRENT_PROJECT_VERSION": "0.2.7",
+          "SKIP_INSTALL": "NO",
+          "ENABLE_HARDENED_RUNTIME": "YES"
+        }
+      },
+      "dependencies": [
+        {
+          "target": "Digits Maintenance",
+          "embed": false
+        },
+        {
+          "sdk": "AppKit.framework"
+        },
+        {
+          "sdk": "CoreGraphics.framework"
+        },
+        {
+          "sdk": "QuartzCore.framework"
+        },
+        {
+          "sdk": "IOKit.framework"
+        },
+        {
+          "sdk": "SystemExtensions.framework"
+        },
+        {
+          "sdk": "Security.framework"
+        }
+      ],
+      "postBuildScripts": [
+        {
+          "name": "Embed frozen Digits Touch and one-shot maintenance tool",
+          "script": "set -eu\nmkdir -p \"$TARGET_BUILD_DIR/$CONTENTS_FOLDER_PATH/Library/SystemExtensions\" \"$TARGET_BUILD_DIR/$CONTENTS_FOLDER_PATH/Library/Helpers\"\n/usr/bin/ditto \"$SRCROOT/DigitsDriver/Packaging/TouchDevelopment/Digits.app/Contents/Library/SystemExtensions/local.digits.touch.dext\" \"$TARGET_BUILD_DIR/$CONTENTS_FOLDER_PATH/Library/SystemExtensions/local.digits.touch.dext\"\n/bin/cp \"$BUILT_PRODUCTS_DIR/digits-maintenance\" \"$TARGET_BUILD_DIR/$CONTENTS_FOLDER_PATH/Library/Helpers/digits-maintenance\"\nif [ \"$CODE_SIGNING_ALLOWED\" = YES ]; then /usr/bin/codesign --force --sign \"$EXPANDED_CODE_SIGN_IDENTITY\" --options runtime \"$TARGET_BUILD_DIR/$CONTENTS_FOLDER_PATH/Library/Helpers/digits-maintenance\"; fi\n# Embed scripts also run during incremental builds. Seal the outer bundle after\n# the helper changes so an unchanged app executable cannot leave a stale seal.\nif [ \"$CODE_SIGNING_ALLOWED\" = YES ]; then\n    if [ -n \"${CODE_SIGN_ENTITLEMENTS:-}\" ]; then\n        /usr/bin/codesign --force --sign \"$EXPANDED_CODE_SIGN_IDENTITY\" --options runtime --entitlements \"$SRCROOT/$CODE_SIGN_ENTITLEMENTS\" \"$TARGET_BUILD_DIR/$WRAPPER_NAME\"\n    else\n        /usr/bin/codesign --force --sign \"$EXPANDED_CODE_SIGN_IDENTITY\" --options runtime \"$TARGET_BUILD_DIR/$WRAPPER_NAME\"\n    fi\nfi\n",
+          "basedOnDependencyAnalysis": false
+        }
+      ]
+    },
+    "Digits Installer Maintenance": {
+      "type": "tool",
+      "platform": "macOS",
+      "productName": "digits-installer-maintenance",
+      "sources": [
+        {
+          "path": "DigitsInstaller/Backend/Maintenance"
+        },
+        {
+          "path": "DigitsInstaller/Backend/Common"
+        },
+        {
+          "path": "DigitsApp/Maintenance/Source/DigitsMaintenanceRunStartupCacheSession.c"
+        }
+      ],
+      "settings": {
+        "base": {
+          "PRODUCT_NAME": "digits-installer-maintenance",
+          "PRODUCT_BUNDLE_IDENTIFIER": "local.digits.installer.maintenance",
+          "CODE_SIGNING_ALLOWED": "NO",
+          "HEADER_SEARCH_PATHS": [
+            "$(SRCROOT)/DigitsInstaller/Backend"
+          ]
+        }
+      },
+      "dependencies": [
+        {
+          "sdk": "AppKit.framework"
+        },
+        {
+          "sdk": "Foundation.framework"
+        },
+        {
+          "sdk": "Security.framework"
+        },
+        {
+          "sdk": "IOKit.framework"
+        }
+      ]
+    },
+    "Digits Installer": {
+      "type": "application",
+      "platform": "macOS",
+      "productName": "Digits Installer",
+      "sources": [
+        {
+          "path": "DigitsInstaller/Source"
+        },
+        {
+          "path": "DigitsInstaller/Interface"
+        },
+        {
+          "path": "DigitsInstaller/Backend/Source"
+        },
+        {
+          "path": "DigitsInstaller/Backend/Common"
+        },
+        {
+          "path": "DigitsInstaller/Resources",
+          "buildPhase": "resources"
+        },
+        {
+          "path": "DigitsInstaller/Backend/DigitsInstallerBackend.h",
+          "buildPhase": "none"
+        },
+        {
+          "path": "DigitsInstaller/Backend/DigitsInstallerInternal.h",
+          "buildPhase": "none"
+        },
+        {
+          "path": "DigitsInstaller/Configuration",
+          "buildPhase": "none"
+        }
+      ],
+      "settings": {
+        "base": {
+          "PRODUCT_NAME": "Digits Installer",
+          "PRODUCT_BUNDLE_IDENTIFIER": "local.digits.installer",
+          "INFOPLIST_FILE": "DigitsInstaller/Configuration/Info.plist",
+          "GENERATE_INFOPLIST_FILE": "NO",
+          "HEADER_SEARCH_PATHS": [
+            "$(SRCROOT)/DigitsInstaller/Backend",
+            "$(SRCROOT)/DigitsInstaller/Interface"
+          ],
+          "MARKETING_VERSION": "0.1.4",
+          "CURRENT_PROJECT_VERSION": "0.1.4",
+          "SKIP_INSTALL": "NO",
+          "ENABLE_HARDENED_RUNTIME": "YES",
+          "CODE_SIGN_ENTITLEMENTS": "DigitsInstaller/Configuration/Installer.entitlements"
+        }
+      },
+      "dependencies": [
+        {
+          "target": "Digits Installer Maintenance",
+          "embed": false
+        },
+        {
+          "sdk": "AppKit.framework"
+        },
+        {
+          "sdk": "Foundation.framework"
+        },
+        {
+          "sdk": "CoreGraphics.framework"
+        },
+        {
+          "sdk": "QuartzCore.framework"
+        },
+        {
+          "sdk": "Security.framework"
+        },
+        {
+          "sdk": "IOKit.framework"
+        }
+      ],
+      "postBuildScripts": [
+        {
+          "name": "Embed verified offline payloads and one-shot installer helper",
+          "basedOnDependencyAnalysis": false,
+          "script": "set -eu\npayloads=\"$SRCROOT/.build/InstallerPayloads\"\ntest -f \"$payloads/PayloadManifest.json\"\nmkdir -p \"$TARGET_BUILD_DIR/$CONTENTS_FOLDER_PATH/Library/Helpers\" \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Payloads\"\n/usr/bin/ditto \"$payloads\" \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/Payloads\"\n/bin/cp \"$BUILT_PRODUCTS_DIR/digits-installer-maintenance\" \"$TARGET_BUILD_DIR/$CONTENTS_FOLDER_PATH/Library/Helpers/digits-installer-maintenance\"\nif [ \"$CODE_SIGNING_ALLOWED\" = YES ]; then /usr/bin/codesign --force --sign \"$EXPANDED_CODE_SIGN_IDENTITY\" --options runtime \"$TARGET_BUILD_DIR/$CONTENTS_FOLDER_PATH/Library/Helpers/digits-installer-maintenance\"; fi\n# Embed scripts also run during incremental builds. Seal the outer bundle after\n# the helper changes so an unchanged app executable cannot leave a stale seal.\nif [ \"$CODE_SIGNING_ALLOWED\" = YES ]; then\n    if [ -n \"${CODE_SIGN_ENTITLEMENTS:-}\" ]; then\n        /usr/bin/codesign --force --sign \"$EXPANDED_CODE_SIGN_IDENTITY\" --options runtime --entitlements \"$SRCROOT/$CODE_SIGN_ENTITLEMENTS\" \"$TARGET_BUILD_DIR/$WRAPPER_NAME\"\n    else\n        /usr/bin/codesign --force --sign \"$EXPANDED_CODE_SIGN_IDENTITY\" --options runtime \"$TARGET_BUILD_DIR/$WRAPPER_NAME\"\n    fi\nfi\n"
+        }
+      ]
+    }
+  },
+  "schemes": {
+    "Digits Driver": {
+      "build": {
+        "targets": {
+          "Digits Driver": "all",
+          "Digits Driver Control": "all"
+        }
+      },
+      "run": {
+        "config": "Debug",
+        "executable": "/usr/bin/true"
+      }
+    },
+    "Digits Driver Control": {
+      "build": {
+        "targets": {
+          "Digits Driver Control": "all"
+        }
+      },
+      "run": {
+        "config": "Debug",
+        "commandLineArguments": {
+          "--status": true
+        }
+      }
+    },
+    "Digits Touch": {
+      "build": {
+        "targets": {
+          "Digits Touch": "all"
+        }
+      },
+      "run": {
+        "config": "Debug"
+      }
+    },
+    "Digits Touch DEXT": {
+      "build": {
+        "targets": {
+          "Digits Touch DEXT": "all"
+        }
+      }
+    },
+    "Digits": {
+      "build": {
+        "targets": {
+          "Digits": "all"
+        }
+      },
+      "run": {
+        "config": "Debug"
+      }
+    },
+    "Digits Maintenance": {
+      "build": {
+        "targets": {
+          "Digits Maintenance": "all"
+        }
+      },
+      "run": {
+        "config": "Debug"
+      }
+    },
+    "Digits Installer Maintenance": {
+      "build": {
+        "targets": {
+          "Digits Installer Maintenance": "all"
+        }
+      },
+      "run": {
+        "config": "Debug"
+      }
+    },
+    "Digits Installer": {
+      "build": {
+        "targets": {
+          "Digits Installer": "all"
+        }
+      },
+      "run": {
+        "config": "Debug"
+      }
+    }
+  },
+  "fileGroups": [
+    "Testing",
+    "Tools",
+    "DigitsDriver/Packaging",
+    "README.md"
+  ]
+}

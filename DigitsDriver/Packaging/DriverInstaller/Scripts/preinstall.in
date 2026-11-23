@@ -1,0 +1,75 @@
+#!/bin/sh
+# Validate the running system and preserve an existing candidate before payload replacement.
+set -eu
+umask 077
+
+expected_kernel='Darwin Kernel Version 27.3.0: Fri Oct 30 02:01:13 PDT 2026; root:xnu-13432.60.57~99/RELEASE_ARM64_T6050'
+destination_bundle='/Library/Extensions/Digits Driver.kext'
+driver_directory='/Library/Application Support/Digits/Driver'
+log_directory='/Library/Logs/Digits/Driver'
+
+if [ "$(/usr/bin/id -u)" -ne 0 ] || [ "${3-}" != '/' ]; then
+    echo 'Digits Driver: installation requires the running system volume and administrator authorization.' >&2
+    exit 1
+fi
+if [ "$(/usr/bin/uname -v)" != "$expected_kernel" ]; then
+    echo 'Digits Driver: this package is pinned to a different kernel. Nothing installed.' >&2
+    exit 1
+fi
+
+/bin/mkdir -p "$log_directory"
+/bin/chmod 700 "$log_directory"
+installation_log="$log_directory/install.log"
+printf '\n%s PREINSTALL Digits Driver @DRIVER_VERSION@\n' "$(/bin/date -u '+%Y-%m-%dT%H:%M:%SZ')" >> "$installation_log"
+
+# A removed bundle can remain loaded from the auxiliary collection. Check both states.
+if [ -e /Library/Extensions/XeneonEarlyInit.kext ] || [ -L /Library/Extensions/XeneonEarlyInit.kext ]; then
+    echo 'Digits Driver: XeneonEarlyInit.kext remains installed. Leave it unchanged and stop.' >&2
+    printf '%s\n' 'BLOCKED: legacy driver remains on disk.' >> "$installation_log"
+    exit 1
+fi
+loaded_state=$(/usr/bin/mktemp "$log_directory/loaded-before.XXXXXX")
+if /usr/bin/kmutil showloaded --list-only > "$loaded_state" 2>&1; then
+    /bin/cat "$loaded_state" >> "$installation_log"
+else
+    /bin/cat "$loaded_state" >&2
+    printf '%s\n' 'BLOCKED: loaded-extension state is unavailable.' >> "$installation_log"
+    exit 1
+fi
+if /usr/bin/grep -Eq 'local\.xeneon\.earlyinit([[:space:](]|$)' "$loaded_state"; then
+    echo 'Digits Driver: the legacy driver is still loaded. Do not attempt to unload it.' >&2
+    printf '%s\n' 'BLOCKED: legacy driver is loaded.' >> "$installation_log"
+    exit 1
+fi
+
+# Replacing files on disk does not unload either running driver.
+# Their existing code remains active until the separately requested restart.
+
+if [ -L "$destination_bundle" ]; then
+    echo 'Digits Driver: the destination bundle is a symbolic link. Nothing replaced.' >&2
+    exit 1
+fi
+if [ -e "$destination_bundle" ]; then
+    installed_identifier=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$destination_bundle/Contents/Info.plist")
+    installed_version=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$destination_bundle/Contents/Info.plist")
+    if [ "$installed_identifier" != 'local.digits.driver' ]; then
+        echo 'Digits Driver: the destination contains a different bundle identifier. Nothing replaced.' >&2
+        exit 1
+    fi
+    if /usr/sbin/pkgutil --compare-versions "$installed_version" '>' '@DRIVER_VERSION@'; then
+        echo 'Digits Driver: a newer version is already installed. Nothing replaced.' >&2
+        exit 1
+    fi
+
+    # Backups must stay outside Extensions so macOS cannot discover another loadable copy.
+    /bin/mkdir -p "$driver_directory/Backups"
+    backup_directory=$(/usr/bin/mktemp -d "$driver_directory/Backups/$(/bin/date -u '+%Y%m%dT%H%M%SZ')-XXXXXX")
+    /usr/bin/ditto --noextattr --norsrc "$destination_bundle" "$backup_directory/Digits Driver.kext"
+    if [ -f "$driver_directory/digits-driver-ctl" ] && [ ! -L "$driver_directory/digits-driver-ctl" ]; then
+        /usr/bin/ditto --noextattr --norsrc "$driver_directory/digits-driver-ctl" "$backup_directory/digits-driver-ctl"
+    fi
+    printf 'BACKUP: version=%s path=%s\n' "$installed_version" "$backup_directory" >> "$installation_log"
+fi
+
+printf '%s\n' 'PREINSTALL PASSED: current Digits Driver may remain loaded until the user restarts.' >> "$installation_log"
+echo "Digits Driver: preflight passed. Installation log: $installation_log"

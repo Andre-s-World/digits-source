@@ -1,0 +1,73 @@
+#!/bin/sh
+# Request the macOS driver update; approval and reboot remain user actions.
+set -eu
+umask 077
+
+expected_kernel='Darwin Kernel Version 27.3.0: Fri Oct 30 02:01:13 PDT 2026; root:xnu-13432.60.57~99/RELEASE_ARM64_T6050'
+destination_bundle='/Library/Extensions/Digits Driver.kext'
+driver_directory='/Library/Application Support/Digits/Driver'
+log_directory='/Library/Logs/Digits/Driver'
+
+if [ "$(/usr/bin/id -u)" -ne 0 ] || [ "${3-}" != '/' ]; then
+    echo 'Digits Driver: postinstall requires the running system volume and administrator authorization.' >&2
+    exit 1
+fi
+if [ "$(/usr/bin/uname -v)" != "$expected_kernel" ]; then
+    echo 'Digits Driver: the running kernel changed. No load requested.' >&2
+    exit 1
+fi
+/bin/mkdir -p "$log_directory"
+/bin/chmod 700 "$log_directory"
+installation_log="$log_directory/install.log"
+printf '%s POSTINSTALL Digits Driver @DRIVER_VERSION@\n' "$(/bin/date -u '+%Y-%m-%dT%H:%M:%SZ')" >> "$installation_log"
+
+installed_identifier=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$destination_bundle/Contents/Info.plist")
+installed_version=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$destination_bundle/Contents/Info.plist")
+if [ "$installed_identifier" != 'local.digits.driver' ] || [ "$installed_version" != '@DRIVER_VERSION@' ]; then
+    echo 'Digits Driver: installed payload identity differs from this package. No load requested.' >&2
+    exit 1
+fi
+
+# The package creates this exact installed-path checksum list from its artifact manifest.
+/usr/bin/shasum -a 256 -c "$driver_directory/SHA256SUMS" >> "$installation_log" 2>&1
+
+# The KEXT is unsigned in this experimental architecture. Import per-machine data
+# only after pristine payload verification and before kmutil builds its collection.
+# Signed Digits Touch and Digits.app are never modified. A missing binding is valid.
+/bin/sh "$(/usr/bin/dirname "$0")/configure-display-binding.sh" \
+    '/Library/Application Support/Digits/DigitsDisplayBinding.plist' \
+    "$destination_bundle/Contents/Info.plist" >> "$installation_log" 2>&1
+/usr/bin/shasum -a 256 "$destination_bundle/Contents/Info.plist" \
+    > "$driver_directory/ConfiguredInfo.sha256"
+
+/usr/sbin/chown -R root:wheel "$destination_bundle"
+/bin/chmod -R go-w "$destination_bundle"
+/usr/sbin/chown root:wheel "$driver_directory/digits-driver-ctl"
+/bin/chmod 755 "$driver_directory/digits-driver-ctl"
+
+# kmutil initiates Apple's update flow. An older pinned copy can continue running
+# until the new auxiliary collection is approved and the user restarts the Mac.
+if /usr/bin/kmutil load --bundle-path "$destination_bundle" --load-style start-only >> "$installation_log" 2>&1; then
+    load_status=0
+else
+    load_status=$?
+fi
+case "$load_status" in
+    0)
+        installation_state='UPDATE REQUESTED: restart with the Edge connected, then verify version @DRIVER_VERSION@ and automatic arm status.'
+        ;;
+    27)
+        installation_state='PENDING APPROVAL: allow the driver update in System Settings, then restart with the Edge connected.'
+        ;;
+    28)
+        installation_state='PENDING RESTART: restart with the Edge connected, then verify version @DRIVER_VERSION@ and automatic arm status.'
+        ;;
+    *)
+        printf 'FAILED: kmutil status=%s. Payload remains installed; no arming or unload attempted.\n' "$load_status" >> "$installation_log"
+        echo "Digits Driver: update request failed (status $load_status). See $installation_log" >&2
+        exit "$load_status"
+        ;;
+esac
+printf 'KMUTIL STATUS: %s\n%s\n' "$load_status" "$installation_state" >> "$installation_log"
+printf 'Digits Driver: %s\nInstallation log: %s\n' "$installation_state" "$installation_log"
+exit 0

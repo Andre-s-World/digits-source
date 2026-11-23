@@ -1,0 +1,34 @@
+# Local build products and machine-specific test evidence.
+.DS_Store
+.build/
+build/
+BuildReports/
+Results/
+Archives/
+Releases/
+__pycache__/
+*.pyc
+xcuserdata/
+*.xcuserstate
+*.dSYM/
+*.pcap
+*.pcapng
+*.core
+
+# Staged installers and payloads are published separately in digits-binary.
+Packaging/Driver/
+Packaging/Touch/
+Packaging/TouchDevelopment/
+Packaging/DriverInstaller/build/
+
+# The current test display UUID belongs to this Mac, not every installation.
+DigitsTouch/Configuration/DigitsDisplayBinding.plist
+
+# Prepared machine-specific display setup; never shipped in installers.
+DigitsTouch/Configuration/Local/
+
+# App candidates remain local until separately reviewed.
+Builds/
+
+# Local release archive passwords; never publish.
+/Private/

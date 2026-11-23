@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Version</key>
+    <integer>1</integer>
+    <key>DisplayUUID</key>
+    <string>REPLACE-WITH-THE-CURRENT-PHYSICAL-DISPLAY-UUID</string>
+    <key>USBVendorID</key>
+    <integer>10176</integer>
+    <key>USBProductID</key>
+    <integer>2137</integer>
+    <key>USBRevision</key>
+    <integer>336</integer>
+    <key>DisplayVendorID</key>
+    <integer>3672</integer>
+    <key>DisplayProductID</key>
+    <integer>60672</integer>
+    <key>DisplaySerialNumber</key>
+    <integer>0</integer>
+    <key>DisplayEDIDSHA256</key>
+    <string>REPLACE-WITH-SHA256-OF-THE-COMPLETE-PHYSICAL-EDID</string>
+</dict>
+</plist>

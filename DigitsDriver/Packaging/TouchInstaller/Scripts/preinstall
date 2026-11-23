@@ -1,0 +1,46 @@
+#!/bin/sh
+# Preserve the previous signed app; never deactivate the DriverKit extension here.
+set -eu
+umask 077
+if [ "$(/usr/bin/id -u)" -ne 0 ] || [ "${3-}" != '/' ]; then
+    echo 'Digits Touch requires the running system volume and administrator authorization.' >&2
+    exit 1
+fi
+# Stop only the metadata helper before replacing its executable. This never unloads
+# Digits Touch or Digits Driver; native binding remains with the active provider.
+if /bin/launchctl print system/local.digits.touch.association >/dev/null 2>&1; then
+    /bin/launchctl bootout system/local.digits.touch.association
+fi
+application='/Applications/Digits.app'
+if [ -L "$application" ]; then
+    echo 'Digits Touch: the installed app path is a symbolic link. Nothing replaced.' >&2
+    exit 1
+fi
+if [ -d "$application" ]; then
+    identifier=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$application/Contents/Info.plist")
+    case "$identifier" in
+        local.digits.touch.host|local.xeneon.edge) ;;
+        *) echo 'Digits Touch: another app occupies the destination. Nothing replaced.' >&2; exit 1 ;;
+    esac
+    # Do not replace executable files while our GUI or metadata worker is running.
+    /usr/bin/python3 - "$application" <<'PYTHON'
+import plistlib
+from pathlib import Path
+import subprocess
+import sys
+app = Path(sys.argv[1])
+info = plistlib.loads((app / 'Contents/Info.plist').read_bytes())
+executable = str(app / 'Contents/MacOS' / info['CFBundleExecutable'])
+processes = subprocess.run(['/bin/ps', '-axww', '-o', 'pid=,command='],
+                           check=True, capture_output=True, text=True)
+for line in processes.stdout.splitlines():
+    fields = line.strip().split(None, 1)
+    if len(fields) == 2 and (fields[1] == executable or fields[1].startswith(executable + ' ')):
+        raise SystemExit('Quit Digits before installing. Its app/helper is running (PID ' + fields[0] + ').')
+PYTHON
+    backup_root='/Library/Application Support/Digits/AppBackups'
+    /bin/mkdir -p "$backup_root"
+    backup=$(/usr/bin/mktemp -d "$backup_root/$(/bin/date -u '+%Y%m%dT%H%M%SZ')-XXXXXX")
+    /usr/bin/ditto "$application" "$backup/Digits.app"
+    echo "Previous Digits preserved: $backup/Digits.app"
+fi

@@ -1,0 +1,33 @@
+#ifndef DIGITS_TOUCH_DEVICE_IIG
+#define DIGITS_TOUCH_DEVICE_IIG
+
+#include <HIDDriverKit/IOUserHIDDevice.iig>
+#include <stddef.h>
+#include <stdint.h>
+
+struct DigitsTouchDisplayBinding;
+
+// This virtual HID child is created by DigitsUSBTransport after receiving 0D.
+class DigitsTouchDevice : public IOUserHIDDevice {
+  public:
+    virtual bool init() override;
+    virtual void free() override;
+    virtual kern_return_t Stop(IOService *provider) override;
+
+    kern_return_t SubmitPhysicalReport(const uint8_t *report, size_t reportLength) LOCALONLY;
+    kern_return_t LiftAllContacts() LOCALONLY;
+    bool SupportsDisplayBinding(const DigitsTouchDisplayBinding *binding) LOCALONLY;
+
+  protected:
+    virtual bool handleStart(IOService *provider) override LOCALONLY;
+    virtual OSDictionary *newDeviceDescription() override LOCALONLY;
+    virtual OSData *newReportDescriptor() override LOCALONLY;
+    virtual kern_return_t getReport(IOMemoryDescriptor *report, IOHIDReportType reportType,
+                                    IOOptionBits options, uint32_t completionTimeout,
+                                    OSAction *action) override LOCALONLY;
+    virtual kern_return_t setReport(IOMemoryDescriptor *report, IOHIDReportType reportType,
+                                    IOOptionBits options, uint32_t completionTimeout,
+                                    OSAction *action) override LOCALONLY;
+};
+
+#endif
