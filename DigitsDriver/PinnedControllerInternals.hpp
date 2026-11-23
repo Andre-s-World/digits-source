@@ -18,7 +18,9 @@
 
 namespace XeneonPinnedController {
 static_assert(sizeof(uintptr_t) == 8, "64-bit kernel ABI required");
-static_assert(Data::kFunctionCount == 439 && Data::kTableBytes == 0xdd0,
+// The table sizes of the controller layouts reviewed in generate-pinned-table.py.
+static_assert((Data::kFunctionCount == 439 || Data::kFunctionCount == 440) &&
+              Data::kTableBytes == (Data::kFunctionCount + 3) * sizeof(uintptr_t),
               "Unexpected pinned leaf table extent");
 bool addSlide(uintptr_t, uintptr_t, uintptr_t*);
 bool validUnsignedCodeAddress(uintptr_t);

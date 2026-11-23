@@ -13,6 +13,19 @@ import struct
 
 PINNED_CLASS = "__ZTV17AppleT8142USBXHCI"
 
+# Controller vtable layouts reviewed against the factory hooks, keyed by the SHA-256
+# of the ordered slot diversities. A diversity identifies the declared method, so new
+# overrides keep a layout while added, removed or reordered methods change it. Each
+# layout was compared with the tested one: both factories, the IOUSBHostDevice vtable
+# and creation path, and the string-descriptor request path are unchanged.
+REVIEWED_LAYOUTS = {
+    # macOS 27.3, Darwin 27.3.0 built October 30, 2026. Tested on hardware.
+    "9906d11e524df201ed15fb84fed0d8fd9d58eb34f1b054bc00feed7037d3c997": 439,
+    # macOS 27.3, Darwin 27.3.0 built November 9, 2026: inserts
+    # AppleUSBXHCIARM::dartErrorHandler at slot 0xd98; the last four methods move down.
+    "16bcd215d904aa612071d2e0e5a3a5af52a014aacdb7b1ad72d786b98a0d842d": 440,
+}
+
 
 def main():
     here = Path(__file__).resolve().parent
@@ -33,10 +46,12 @@ def main():
     collection_uuid = manifest["collection_uuid"]
     assert manifest["vtable_symbol"] == PINNED_CLASS
     assert manifest["structural_check_passed"] and not manifest["problems"]
-    # PinnedControllerInternals.hpp is compiled for exactly this many virtual functions.
-    assert manifest["chain_covered_entries"] == 439, (
-        f"AppleT8142USBXHCI has {manifest['chain_covered_entries']} virtual functions; "
-        "Digits Driver expects 439")
+    function_count = manifest["chain_covered_entries"]
+    layout = hashlib.sha256(",".join(
+        row["diversity"] for row in manifest["entries"] if row["chain_covered"]).encode()).hexdigest()
+    assert REVIEWED_LAYOUTS.get(layout) == function_count, (
+        f"AppleT8142USBXHCI has an unreviewed layout ({function_count} virtual functions, "
+        f"layout {layout}); review it against the factory hooks before adding it to REVIEWED_LAYOUTS")
     assert manifest["pointer_formats"] == [8]
     symbols = {}
     for line in args.symbols.read_text().splitlines():
@@ -73,7 +88,7 @@ def main():
     end = int(manifest["candidate_bound_address_unslid"], 16)
     rows = manifest["entries"]
     assert table == symbol(PINNED_CLASS)
-    assert end - table == len(rows) * 8 == (2 + 439 + 1) * 8
+    assert end - table == len(rows) * 8 == (2 + function_count + 1) * 8
     for index, row in enumerate(rows):
         assert int(row["table_offset"], 16) == index * 8
         address = table + index * 8
@@ -110,7 +125,7 @@ def main():
         f"constexpr uintptr_t kVersionUnslid = UINT64_C({version_address:#x});",
         f"constexpr uintptr_t kAnchorUnslid = UINT64_C({anchor:#x});",
         f"constexpr uintptr_t kTableUnslid = UINT64_C({table:#x});",
-        "constexpr size_t kFunctionCount = 439;",
+        f"constexpr size_t kFunctionCount = {function_count};",
         "constexpr size_t kHeaderWords = 2;",
         "constexpr size_t kTableWords = kHeaderWords + kFunctionCount + 1;",
         "constexpr size_t kTableBytes = kTableWords * sizeof(uintptr_t);",

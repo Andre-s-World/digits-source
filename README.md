@@ -33,7 +33,7 @@ Digits is locked to the exact setup it was built for. Matching only some of this
 
 - **Display:** a Corsair Xeneon Edge whose touch controller identifies as USB `27C0:0859`, revision `0150`.
 - **Mac:** Apple silicon with the `AppleT8142USBXHCI` USB controller, with the Edge plugged into the tested port (USB route `0x00140000`).
-- **macOS:** the driver is generated for the exact kernel you run, from your Mac's own kernel collection; see [Build](#3-build). Digits was tested on macOS 27.3 with Darwin 27.3.0 built October 30, 2026 (`xnu-13432.60.57~99/RELEASE_ARM64_T6050`), and the committed table is for that kernel. Check yours with `uname -v`.
+- **macOS:** the driver is generated for the exact kernel you run, from your Mac's own kernel collection; see [Build](#3-build). Digits was tested on macOS 27.3 with Darwin 27.3.0 built October 30, 2026 (`xnu-13432.60.57~99/RELEASE_ARM64_T6050`), and the committed table is for that kernel. The later 27.3 build of November 9, 2026 (`xnu-13432.60.70.0.3~25`) adds one controller method; Digits builds for it and passes the offline checks, but hasn't been tested on hardware yet. Check yours with `uname -v`.
 - **Security settings:** SIP disabled, **Permissive Security**, and third-party kernel extensions allowed. Reduced Security is not enough.
 - **Signing:** your own Apple Developer team, with DriverKit development provisioning for the Mac you install on.
 - **Tools:** Xcode 27 with the macOS 27 SDK and Python 3. [XcodeGen](https://github.com/yonaskolb/XcodeGen) is only needed to regenerate the Xcode project, which the individual `build-driver.sh` and `build-touch.sh` scripts do.
@@ -136,7 +136,7 @@ Uninstalling removes the app, both drivers, the display choice, settings, logs a
 Digits Driver's controller table, [PinnedControllerTable.generated.hpp](DigitsDriver/PinnedControllerTable.generated.hpp), comes from one exact kernel collection. The driver refuses to arm on any other kernel, so multitouch stops after a macOS update until you rebuild: run `sh Tools/make-installer.sh` again, then run the new installer.
 
 [regenerate-kernel-table.py](DigitsDriver/regenerate-kernel-table.py) reads the active boot kernel collection from the Preboot volume as an ordinary file. It never installs, loads or arms anything. It unwraps and decompresses the collection, then confirms it is the running kernel. Before changing anything, it checks that the kernel still matches what the driver relies on:
-- **Controller vtable:** `AppleT8142USBXHCI`'s vtable has the 439 virtual functions the driver is compiled for.
+- **Controller vtable:** `AppleT8142USBXHCI`'s vtable matches a layout already reviewed against the driver's hooks. The reviewed layouts are listed in [generate-pinned-table.py](DigitsDriver/generate-pinned-table.py).
 - **Factory slots:** the two device-factory slots it hooks, `0x948` and `0x958`, are unchanged.
 - **Vptr signing:** the controller still signs its vtable pointer with the discriminator the driver uses, `0xcda1`.
 - **Request slot:** `IOUSBHostDevice`'s request method is still at the slot the driver overrides, `0xb68`.
